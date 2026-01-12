@@ -25,6 +25,10 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    profileImage: {
+        type: String,
+        default: null
+    },
     gender: {
         type: String,
         required: true
@@ -37,7 +41,7 @@ const UserSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     }
-    
+
 }, { timestamps: true });
 
 const User = mongoose.model('User', UserSchema);
