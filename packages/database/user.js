@@ -51,8 +51,12 @@ const UserSchema = new mongoose.Schema({
     lastLogin: {
         type: Date,
         default: Date.now
-    }
+    },
 
+    products: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Product'
+    }
 }, { timestamps: true });
 
 const User = mongoose.model('User', UserSchema);
