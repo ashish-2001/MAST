@@ -1,6 +1,10 @@
 {
   "name": "MAST",
   "private": true,
+  "workspace": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
