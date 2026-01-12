@@ -32,7 +32,7 @@ const UserSchema = new mongoose.Schema({
     },
     addresses: [
         {
-            type: mongoose.Types.Schema.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: 'Address'
         }
     ],
@@ -58,5 +58,5 @@ const UserSchema = new mongoose.Schema({
 const User = mongoose.model('User', UserSchema);
 
 export {
-    userModel
+    User
 }
