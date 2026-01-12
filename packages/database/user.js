@@ -25,6 +25,17 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    role: {
+        type: String,
+        enum: ['ADMIN', 'CUSTOMER'],
+        required: true
+    },
+    addresses: [
+        {
+            type: mongoose.Types.Schema.ObjectId,
+            ref: 'Address'
+        }
+    ],
     profileImage: {
         type: String,
         default: null
