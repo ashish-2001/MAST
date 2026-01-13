@@ -33,6 +33,7 @@ const orderSchema = new mongoose.Schema({
         enum: ['Pending', 'Paid', 'Shipped', 'Delivered', 'Cancelled'],
         required: true
     }
+    
 }, { timestamps: true });
 
 const Order = mongoose.model('Order', orderSchema);
