@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 const AddressSchema = new mongoose.Schema({
+
     address: {
         type: String,
         required: true
@@ -21,6 +22,7 @@ const AddressSchema = new mongoose.Schema({
         type: Number,
         required: true
     }
+    
 });
 
 const Address = mongoose.model("Address", AddressSchema);
