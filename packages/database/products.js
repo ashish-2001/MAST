@@ -30,6 +30,11 @@ const productsSchema = new mongoose.Schema({
     categories: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Category'
+    },
+
+    createdBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     }
     
 });
