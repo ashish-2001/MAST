@@ -30,6 +30,26 @@ const UserSchema = new mongoose.Schema({
         enum: ['ADMIN', 'CUSTOMER'],
         required: true
     },
+    cart: [
+        {
+            product: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref:'Product'
+            }
+        }
+    ],
+    wishlist: [
+        {
+            product:{
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Product'
+            },
+            min: {
+                type: Number,
+                min: 1
+            }
+        }
+    ],
     addresses: [
         {
             type: mongoose.Schema.Types.ObjectId,
