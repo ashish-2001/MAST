@@ -88,3 +88,62 @@ async function signup(req, res){
         });
     };
 };
+
+async function signin(req, res){
+
+    try{
+        const parsedResult = signInValidator.safeParse();
+
+        if(!parsedResult.success){
+            return res.status(403).json({
+                success: false,
+                message: "All fields are required!"
+            });
+        };
+
+        const { email, password } = parsedResult.data;
+
+        const user = await User.findOne({
+            email
+        });
+
+        if(!user){
+            return res.status(403).json({
+                success: false,
+                message: "User not found!"
+            });
+        };
+
+        const isPasswordMatch = await bcrypt.compare(password, user.password)
+
+        if(isPasswordMatch){
+            const token = jwt.sign({
+                userId: user._id,
+                role: user.role,
+                email: user.email
+            }, JWT_SECRET);
+
+            user.token = token;
+            user.password = undefined;
+
+            const options = {
+                expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+                httpOnly: true
+            }
+
+            return res.cookie('token', token, options).status(200).json({
+                success: true,
+                message: "Logged in successfully",
+                user,
+                token
+            });
+        } else {
+            return res.status(401).json({
+                success: false,
+                message: 'Password is incorrect!'
+            });
+        };
+    } catch(e){
+
+    }
+}
