@@ -1,3 +1,5 @@
+import z from "zod";
+
 const signUpValidator = z.object({
     firstName: z.string().min(3, "First name should not be less than three words"),
     lastName: z.string().min(3, "Last name should not be less than three words"),
@@ -29,4 +31,4 @@ export {
     signInValidator,
     otpValidator,
     changePassword
-}
+};
