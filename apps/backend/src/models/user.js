@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { string } from 'zod';
 
 const UserSchema = new mongoose.Schema({
 
@@ -61,6 +62,9 @@ const UserSchema = new mongoose.Schema({
             ref: 'Address'
         }
     ],
+    token: {
+        type: string
+    },
     profileImage: {
         type: String,
         default: null
