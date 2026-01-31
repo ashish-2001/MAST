@@ -17,7 +17,7 @@ const signInValidator = z.object({
 
 const otpValidator = z.object({
     email: z.string().email("Invalid email address"),
-    accountType: z.enum([ACCOUNT_TYPE.ADMIN, ACCOUNT_TYPE.CUSTOMER])
+    role: z.enum([ROLE.ADMIN, ROLE.CUSTOMER])
 });
 
 const changePassword = z.object({
