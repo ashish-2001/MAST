@@ -144,6 +144,89 @@ async function signin(req, res){
             });
         };
     } catch(e){
+        return res.status(500).json({
+            success: false,
+            message: e.message
+        });
+    };
+};
 
-    }
+async function sedOtp(req, res){
+
+    try{
+        const parsedResult = otpValidator.safeParse();
+
+        if(!parsedResult.success){
+            return res.status(403).json({
+                success: false,
+                message: "All fields are required!"
+            });
+        };
+
+        const { email, role } = parsedResult.data;
+
+        const userExists = await User.findOne({
+            email,
+            role
+        });
+
+        if(userExists){
+            return res.status(403).json({
+                success: false,
+                message: 'User already exists!'
+            });
+        };
+
+        let otp;
+        let otpExists;
+
+        do { otp = otpGenerator.generate(6, {
+                uppercaseAlphabets: false,
+                lowercaseAlphabets: false,
+                specialChars: false
+            }) ;
+            otpExists = await Otp.findOne({
+                otp, role
+            });
+        } while(otpExists);
+
+        await Otp.create({ email, otp, role });
+
+        return res.status(200).json({
+            success: true,
+            message: "Otp sent successfully",
+            otp
+        });
+    } catch(e){
+        return res.status(500).json({
+            success: false,
+            message: e.message
+        });
+    };
+};
+
+async function changePassword(req, res){
+
+    try{
+        const userDetails = await User.findById(req.user.userId);
+
+        if(!userDetails){
+            return res.status(403).json({
+                success: false,
+                message: "User not found!"
+            });
+        };
+
+
+    } catch(e){
+        return res.status(500).json({
+            success: false,
+            message: e.message
+        });
+    };
+};
+
+export {
+    signup,
+    signin
 }
