@@ -151,7 +151,7 @@ async function signin(req, res){
     };
 };
 
-async function sedOtp(req, res){
+async function sendOtp(req, res){
 
     try{
         const parsedResult = otpValidator.safeParse();
@@ -217,6 +217,78 @@ async function changePassword(req, res){
             });
         };
 
+        const parsedResult = changePasswordValidator.safeParse();
+
+        if(!parsedResult.success){
+            return res.status(403).json({
+                success: false,
+                message: "All fields are required!"
+            });
+        };
+
+        const { oldPassword, newPassword, confirmNewPassword } = parsedResult.data;
+
+        if(newPassword !== confirmNewPassword){
+            return res.status(403).json({
+                success: false,
+                message: 'New password and confirm new password should match!'
+            });
+        };
+
+        const isPasswordMatch = await bcrypt.compare(
+            oldPassword,
+            userDetails.password
+        );
+
+        if(oldPassword === newPassword){
+            return res.status(401).json({
+                success: false,
+                message: "Old password and new password cannot be same!"
+            });
+        };
+
+        if(!isPasswordMatch){
+            return res.status(404)({
+                success: false,
+                message: "Old Password and new password does not match!"
+            });
+        };
+
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+        const updatedUserDetails = await User.findByIdAndUpdate(
+            req.user.userId,
+            {
+                password: hashedPassword
+            },
+            {
+                new: true
+            }
+        );
+
+        try{
+
+            const mailResponse = await mailSender(
+                updatedUserDetails.email,
+                "Password updated successfully",
+                passwordUpdate(
+                    updatedUserDetails.email,
+                    `Password updated successfully for ${updatedUserDetails.firstName}`
+                )
+            );
+
+            console.log("Email sent successfully", mailResponse);
+        } catch(e){
+            return res.status(500).json({
+                success: false,
+                message: e.message
+            });
+        };
+
+    return res.status(200).json({
+        success: true,
+        message: "Password changed successfully!"
+    });
 
     } catch(e){
         return res.status(500).json({
@@ -228,5 +300,7 @@ async function changePassword(req, res){
 
 export {
     signup,
-    signin
-}
+    signin,
+    sendOtp,
+    changePassword
+};
