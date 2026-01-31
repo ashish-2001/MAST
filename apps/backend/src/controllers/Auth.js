@@ -5,11 +5,12 @@ import { changePassword } from "../../../../packages/shared/schemas/authSchema";
 import { Otp } from "../models/otp";
 import { User } from "../models/user";
 import bcrypt from 'bcrypt';
+import jwt from "jsonwebtoken";
 
 async function signup(req, res){
     
     try{
-        const parsedResult = signUpValidator.safeParse();
+        const parsedResult = signUpValidator.safeParse(req.body);
 
         if(!parsedResult.success){
             return res.status(403).json({
@@ -92,7 +93,7 @@ async function signup(req, res){
 async function signin(req, res){
 
     try{
-        const parsedResult = signInValidator.safeParse();
+        const parsedResult = signInValidator.safeParse(req.body);
 
         if(!parsedResult.success){
             return res.status(403).json({
@@ -154,7 +155,7 @@ async function signin(req, res){
 async function sendOtp(req, res){
 
     try{
-        const parsedResult = otpValidator.safeParse();
+        const parsedResult = otpValidator.safeParse(req.body);
 
         if(!parsedResult.success){
             return res.status(403).json({
@@ -217,7 +218,7 @@ async function changePassword(req, res){
             });
         };
 
-        const parsedResult = changePasswordValidator.safeParse();
+        const parsedResult = changePasswordValidator.safeParse(req.body);
 
         if(!parsedResult.success){
             return res.status(403).json({
