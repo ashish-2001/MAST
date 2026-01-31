@@ -1,10 +1,6 @@
 {
   "name": "MAST",
   "private": true,
-  "workspace": [
-    "apps/*",
-    "packages/*"
-  ],
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
@@ -24,5 +20,8 @@
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "bcrypt": "^6.0.0"
+  }
 }
