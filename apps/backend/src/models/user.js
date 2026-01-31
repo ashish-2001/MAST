@@ -84,4 +84,4 @@ const User = mongoose.model('User', UserSchema);
 
 export {
     User
-}
+};
