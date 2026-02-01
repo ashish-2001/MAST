@@ -106,6 +106,11 @@ async function editProduct(req, res){
 
     try{
 
+        const 
+        return res.status(200).json({
+            success: true,
+            message: 'Product details updated successfully!'
+        });
     } catch(e){
         return res.status(500).json({
             success: false,
