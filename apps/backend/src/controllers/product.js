@@ -1,4 +1,4 @@
-import { success } from "zod";
+import { parse, success } from "zod";
 import { productValidator } from "../../../../packages/shared/schemas/productSchema";
 import { User } from "../models/user";
 import { Category } from "../models/category";
@@ -18,7 +18,7 @@ import { Product } from "../models/products";
             });
         };
 
-        const { productName, productDescription, productPrice, productStock, categoryId } = parsedResult.data;
+        const { productName, productDescription, productPrice, productStock, categories } = parsedResult.data;
 
         const thumbnailImage = req.files.thumbnailImage;
 
@@ -38,7 +38,7 @@ import { Product } from "../models/products";
             });
         };
 
-        const categoryDetails = await Category.findById(categoryId);
+        const categoryDetails = await Category.findById(categories);
 
         if(!categoryDetails){
             return res.status(404).json({
@@ -106,7 +106,37 @@ async function editProduct(req, res){
 
     try{
 
-        const 
+        const parsedResult = productValidator.safeParse(req.body);
+
+        if(!parsedResult.success){
+            return res.status(403).json({
+                success: false,
+                message: 'All fields are required!'
+            });
+        };
+
+        const { productName, productDescription, productPrice } = parsedResult.data;
+
+        const userDetails = await User.findById(userId);
+
+        if(!userDetails){
+            return res.status(404).json({
+                success: false,
+                message: "User not found!"
+            });
+        };
+
+        const productDetails = await Product.findById(req.product.params);
+
+        if(!productDetails){
+            return res.status(404).json({
+                success: false,
+                message: 'Product not found!'
+            });
+        };
+
+        
+
         return res.status(200).json({
             success: true,
             message: 'Product details updated successfully!'
