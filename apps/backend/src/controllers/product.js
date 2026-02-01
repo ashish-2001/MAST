@@ -2,6 +2,7 @@ import { success } from "zod";
 import { productValidator } from "../../../../packages/shared/schemas/productSchema";
 import { User } from "../models/user";
 import { Category } from "../models/category";
+import { Product } from "../models/products";
 
 +async function createProduct(req, res){
 
@@ -45,6 +46,29 @@ import { Category } from "../models/category";
                 message: "Category not found!"
             });
         };
+
+        const uploadedImage = await uploadImageToCloudinary(
+            thumbnail,
+            process.env.FOLDER_NAME || 'default'
+        );
+
+        const addedProduct = await Product.create({
+            productName,
+            productDescription,
+            productPrice,
+            productStock,
+            thumbnailImage: uploadedImage.secure_url,
+            categories: categoryDetails._id,
+            createdBy: userDetails._id
+        });
+
+        if(!addedProduct){
+            return res.status(403).json({
+                success: false,
+                message: "Product could't be created!"
+            });
+        };
+
 
 
     } catch(e){
