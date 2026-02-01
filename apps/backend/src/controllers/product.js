@@ -18,9 +18,9 @@ import { Product } from "../models/products";
             });
         };
 
-        const { productName, productDescription, productPrice, thumbnailImage, productStock, categoryId } = parsedResult.data;
+        const { productName, productDescription, productPrice, productStock, categoryId } = parsedResult.data;
 
-        thumbnailImage = req.files.thumbnailImage;
+        const thumbnailImage = req.files.thumbnailImage;
 
         if(!thumbnailImage){
             return res.status(404).json({
@@ -48,7 +48,7 @@ import { Product } from "../models/products";
         };
 
         const uploadedImage = await uploadImageToCloudinary(
-            thumbnail,
+            thumbnailImage,
             process.env.FOLDER_NAME || 'default'
         );
 
@@ -69,7 +69,7 @@ import { Product } from "../models/products";
             });
         };
 
-        await User.findByIdAndUpdate(userDetails._id, 
+        await User.findByIdAndUpdate(userId, 
             {
                 $push: {
                     products: addedProduct._id
