@@ -18,7 +18,7 @@ import { Product } from "../models/products";
             });
         };
 
-        const { productName, productDescription, productPrice, thumbnailImage, productStock, categoryId } = parsedResult.data;
+        const { productName, productDescription, productsPrice, thumbnailImage, productStock, categoryId } = parsedResult.data;
 
         const thumbnail = req.files.thumbnailImage;
 
@@ -55,7 +55,7 @@ import { Product } from "../models/products";
         const addedProduct = await Product.create({
             productName,
             productDescription,
-            productPrice,
+            productsPrice,
             productStock,
             thumbnailImage: uploadedImage.secure_url,
             categories: categoryDetails._id,
