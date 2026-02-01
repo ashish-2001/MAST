@@ -27,14 +27,14 @@ const productsSchema = new mongoose.Schema({
         required: true
     },
 
-    categories: {
+    categories: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Category'
-    },
-    customersPurchased: {
+    }],
+    customersPurchased: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
-    },
+    }],
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
