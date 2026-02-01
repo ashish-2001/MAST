@@ -20,9 +20,9 @@ import { Product } from "../models/products";
 
         const { productName, productDescription, productsPrice, thumbnailImage, productStock, categoryId } = parsedResult.data;
 
-        const thumbnail = req.files.thumbnailImage;
+        thumbnailImage = req.files.thumbnailImage;
 
-        if(!thumbnail){
+        if(!thumbnailImage){
             return res.status(404).json({
                 success: false,
                 message: "Thumbnail image of the product is missing!"
