@@ -102,6 +102,19 @@ import { Product } from "../models/products";
     };
 };
 
+async function editProduct(req, res){
+
+    try{
+
+    } catch(e){
+        return res.status(500).json({
+            success: false,
+            message: e.message
+        });
+    };
+};
+
 export {
-    createProduct
+    createProduct,
+    editProduct
 };
