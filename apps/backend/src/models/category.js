@@ -17,6 +17,12 @@ const categorySchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    products: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Product'
+        }
+    ],
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
