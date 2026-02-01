@@ -7,6 +7,7 @@ import { Product } from "../models/products";
 +async function createProduct(req, res){
 
     const userId = req.user.userId;
+    const { categoryId, productId } = req.params;
 
     try{
         const parsedResult = productValidator.safeParse(req.body);
@@ -20,18 +21,12 @@ import { Product } from "../models/products";
 
         const { productName, productDescription, productPrice, productStock } = parsedResult.data;
 
-        const categoryDetails = await Category.find({
-            categoryName
-        });
-
-        if(!categoryDetails){
+        if(!categoryId){
             return res.status(404).json({
                 success: false,
-                message: 'Category not found'
+                message: 'Category not found!'
             });
         };
-
-        const categoryId = categoryDetails._id;
 
         const thumbnailImage = req.files.thumbnailImage;
 
@@ -109,8 +104,15 @@ import { Product } from "../models/products";
 async function editProduct(req, res){
 
     const userId = req.user.userId;
-
+    const { categoryId, productId } = req.params;
     try{
+
+        if(!mongoose.Schema.Types.ObjectId.isValid(categoryId) || !mongoose.Schema.Types.ObjectId.isValid(productId)){
+            return res.status(403).json({
+                success: false,
+                message: 'Invalid product and category id!'
+            });
+        };
 
         const parsedResult = productValidator.safeParse(req.body);
 
@@ -121,7 +123,7 @@ async function editProduct(req, res){
             });
         };
 
-        const { productName, productDescription, productPrice, categories } = parsedResult.data;
+        const { productName, productDescription, productPrice } = parsedResult.data;
 
         const userDetails = await User.findById(userId);
 
@@ -132,20 +134,55 @@ async function editProduct(req, res){
             });
         };
 
-        const productDetails = await Product.fond({
+        if(product.createdBy.toString() !== userId){
+            return res.status(403).json({
+                success: false,
+                message: 'You are not allowed to edt the product details!'
+            });
+        };
 
-        });
+        const category = await Category.findById(categoryId);
 
-        if(!productDetails){
+        if(!category){
+            return res.status(404).json({
+                success: false,
+                message: 'Category not found!'
+            });
+        };
+
+        const product = await Product.findById(productId);
+        
+        if(!product){
             return res.status(404).json({
                 success: false,
                 message: 'Product not found!'
             });
         };
 
-        
+        if(req.files || req.files.thumbnailImage ){
+            const thumbnailImage = req.files.thumbnailImage;
+
+            const uploadedImage = await uploadImageToCloudinary(
+                thumbnailImage,
+                process.env.FOLDER_NAME || "products"
+            );
+
+            product.thumbnailImage = uploadedImage.secure_url;
+        }
+
+        product.productName = productName;
+        product.productDescription = productDescription;
+        product.productPrice = productPrice;
+        product.productStock = productStock;
+        product.categories = category._id;
+
+        await product.save();
+
+        const updatedProduct = await Product.findOne({ _id: productId }).populate("categories").populate("ratingAndReviews");
 
         return res.status(200).json({
+            updatedProduct,
+            product,
             success: true,
             message: 'Product details updated successfully!'
         });
