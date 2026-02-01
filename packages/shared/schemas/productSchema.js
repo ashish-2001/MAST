@@ -6,7 +6,7 @@ const productValidator = z.object({
     productPrice: z.number("Product price must be a number").positive("Product price must be greater than 0"),
     thumbnailImage: z.url("Product image must be a valid url"),
     productStock: z.int("Product stock must be an integer").nonnegative("Product stock can not negative!"),
-    categoryId: z.string().min(1, "Category id is required!")
+    categories: z.string().min(1, "Category id is required!")
 });
 
 export {
