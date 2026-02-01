@@ -18,7 +18,20 @@ import { Product } from "../models/products";
             });
         };
 
-        const { productName, productDescription, productPrice, productStock, categories } = parsedResult.data;
+        const { productName, productDescription, productPrice, productStock } = parsedResult.data;
+
+        const categoryDetails = await Category.find({
+            categoryName
+        });
+
+        if(!categoryDetails){
+            return res.status(404).json({
+                success: false,
+                message: 'Category not found'
+            });
+        };
+
+        const categoryId = categoryDetails._id;
 
         const thumbnailImage = req.files.thumbnailImage;
 
@@ -38,15 +51,6 @@ import { Product } from "../models/products";
             });
         };
 
-        const categoryDetails = await Category.findById(categories);
-
-        if(!categoryDetails){
-            return res.status(404).json({
-                success: false,
-                message: "Category not found!"
-            });
-        };
-
         const uploadedImage = await uploadImageToCloudinary(
             thumbnailImage,
             process.env.FOLDER_NAME || 'default'
@@ -58,7 +62,7 @@ import { Product } from "../models/products";
             productPrice,
             productStock,
             thumbnailImage: uploadedImage.secure_url,
-            categories: categoryDetails._id,
+            categories: categoryId,
             createdBy: userDetails._id
         });
 
@@ -129,7 +133,7 @@ async function editProduct(req, res){
         };
 
         const productDetails = await Product.fond({
-            
+
         });
 
         if(!productDetails){
