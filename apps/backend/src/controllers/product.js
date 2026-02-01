@@ -20,7 +20,7 @@ import { Product } from "../models/products";
 
         const { productName, productDescription, productPrice, thumbnailImage, productStock, categoryId } = parsedResult.data;
 
-        const thumbnail = req?.files?.thumbnailImage;
+        const thumbnail = req.files.thumbnailImage;
 
         if(!thumbnail){
             return res.status(404).json({
@@ -100,4 +100,8 @@ import { Product } from "../models/products";
             message: e.message
         });
     };
-}
+};
+
+export {
+    createProduct
+};
