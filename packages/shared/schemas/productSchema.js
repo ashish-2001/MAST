@@ -5,3 +5,7 @@ const productValidator = z.object({
     thumbnailImage: z.url("Product image must be a valid url"),
     productStock: z.int("Product stock must be an integer").nonnegative("Product stock can not negative!")
 });
+
+export {
+    productValidator
+}
