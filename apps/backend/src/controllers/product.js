@@ -104,6 +104,8 @@ import { Product } from "../models/products";
 
 async function editProduct(req, res){
 
+    const userId = req.user.userId;
+
     try{
 
         const parsedResult = productValidator.safeParse(req.body);
@@ -115,7 +117,7 @@ async function editProduct(req, res){
             });
         };
 
-        const { productName, productDescription, productPrice } = parsedResult.data;
+        const { productName, productDescription, productPrice, categories } = parsedResult.data;
 
         const userDetails = await User.findById(userId);
 
@@ -126,7 +128,9 @@ async function editProduct(req, res){
             });
         };
 
-        const productDetails = await Product.findById(req.product.params);
+        const productDetails = await Product.fond({
+            
+        });
 
         if(!productDetails){
             return res.status(404).json({
