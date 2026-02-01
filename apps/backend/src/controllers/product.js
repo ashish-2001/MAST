@@ -69,8 +69,31 @@ import { Product } from "../models/products";
             });
         };
 
+        await User.findByIdAndUpdate(userDetails._id, 
+            {
+                $push: {
+                    products: addedProduct._id
+                }
+            }, {
+                new : true
+            }
+        );
 
+        await Category.findByIdAndUpdate( categoryDetails._id, 
+            {
+                $push: {
+                    products: addedProduct._id
+                }
+            },
+            {
+                new: true
+            }
+        );
 
+        return res.status(200).json({
+            success: true,
+            message: 'Product created successfully!'
+        });
     } catch(e){
         return res.status(500).json({
             success: false,

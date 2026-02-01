@@ -30,6 +30,12 @@ const UserSchema = new mongoose.Schema({
         enum: ['ADMIN', 'CUSTOMER'],
         required: true
     },
+    products: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Product'
+        }
+    ],
     cart: [
         {
             product: {
