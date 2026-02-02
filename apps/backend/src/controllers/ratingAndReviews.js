@@ -56,8 +56,8 @@ async function createRatingAndReview(req, res){
         };
 
         const alreadyReviewed = await RatingAndReview.find({
-            userId,
-            productId
+            user: userId,
+            product: productId
         });
 
         if(alreadyReviewed){
@@ -69,7 +69,9 @@ async function createRatingAndReview(req, res){
 
         const ratingAndReview = await RatingAndReview.create({
             rating,
-            review
+            review,
+            user: userId,
+            product: productId
         });
 
         if(!ratingAndReview){
@@ -80,6 +82,7 @@ async function createRatingAndReview(req, res){
         };
 
         return res.status(200).json({
+            data: ratingAndReview,
             success: true,
             message: "Rating and review created successfully!"
         });
