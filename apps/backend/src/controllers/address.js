@@ -1,0 +1,61 @@
+import { addressValidator } from "../../../../packages/shared/schemas/addressSchema";
+import { Address } from "../models/address";
+import { User } from "../models/user";
+
+
+async function createAddress(req, res){
+
+    const userId = req.user.userId;
+
+    try{
+        const parsedResult = addressValidator.safeParse(req.body);
+
+        if(!parsedResult.success){
+            return res.status(403).json({
+                success: false,
+                message: 'All fields are required!'
+            });
+        };
+
+        const user = await User.findById(userId);
+
+        if(!user){
+            return res.status(404).json({
+                success: false,
+                message: "User not found!"
+            });
+        };
+
+        const { address, landmark, city, state, pinCode } = parsedResult.data;
+
+        const addressDetails = await Address.create({
+            address: address,
+            landmark: landmark,
+            city: city,
+            state: state,
+            pinCode: pinCode
+        });
+
+        if(!addressDetails){
+            return res.status(404).json({
+                success: false,
+                message: "Address cannot be created!"
+            });
+        };
+
+        return res.status(200).json({
+            success: true,
+            message: 'Address created successfully!'
+        });
+
+    } catch(e){
+        return res.status(500).json({
+            success: false,
+            message: e.message
+        });
+    }
+};
+
+export {
+    createAddress
+};
