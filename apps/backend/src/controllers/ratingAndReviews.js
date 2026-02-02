@@ -51,7 +51,7 @@ async function createRatingAndReview(req, res){
         if(!productDetails){
             return res.status(404).json({
                 success: false,
-                message: "Product review failed!"
+                message: "Customer has not purchased this product!"
             });
         };
 
