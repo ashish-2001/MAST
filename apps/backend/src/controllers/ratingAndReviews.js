@@ -33,23 +33,19 @@ async function createRatingAndReview(req, res){
 
         const product = await Product.findById(productId);
 
-        if(!productId){
+        if(!product){
             return res.status(404).json({
                 success: false,
                 message: "Product not found!"
             });
         };
 
-        const productDetails = await Product.findOne({
+        const productsPurchased= await Product.findOne({
             _id: productId,
-            customersPurchased: {
-                $elemMatch: {
-                    $eq: userId
-                }
-            }
+            customersPurchased: userId
         });
 
-        if(!productDetails){
+        if(!productsPurchased){
             return res.status(404).json({
                 success: false,
                 message: "Customer has not purchased this product!"
@@ -99,7 +95,7 @@ async function createRatingAndReview(req, res){
 async function getAllRatingAndReviews(req, res){
 
     try{
-        const allRatingAndReviews = await RatingAndReview.find().sort({ rating: '-1' }).populate({ path: 'user', select: 'firstName lastName thumbnailImage' }).populate({ path: 'product', select: 'productName' });
+        const allRatingAndReviews = await RatingAndReview.find().sort({ rating: '-1' }).populate({ path: 'user', select: 'firstName lastName profileImage' }).populate({ path: 'product', select: 'productName' });
 
         if(!allRatingAndReviews){
             return res.status(403).json({
@@ -132,6 +128,15 @@ async function getAverageRating(req, res){
         });
     };
     try{
+
+        const product = await Product.findById(productId);
+
+        if(!product){
+            return res.status(404).json({
+                success: false,
+                message: 'Product not found!'
+            });
+        };
 
         const result = await RatingAndReview.aggregate([
             {
