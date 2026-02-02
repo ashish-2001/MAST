@@ -43,6 +43,8 @@ async function createAddress(req, res){
             });
         };
 
+        user.addresses.push(addressDetails._id);
+        await user.save();
         return res.status(200).json({
             success: true,
             message: 'Address created successfully!'
