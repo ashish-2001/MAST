@@ -222,7 +222,42 @@ async function getAllProducts(req, res){
     };
 };
 
+async function getAllProductDetails(req, res){
+
+    try{
+        const productId = req.params;
+
+        if(!productId){
+            return res.status(404).json({
+                success: false,
+                message: 'Product not found!'
+            });
+        };
+
+        const productDetails = await Product.findById(productId).populate('createdBy').populate('categories').populate('customersPerchased').exec();
+
+        if(!productDetails){
+            return res.status(404).json({
+                success: false,
+                message: 'Product not found!'
+            });
+        };
+
+        return res.status(200).json({
+            data: productDetails,
+            success: false,
+            message: 'Details of the product is fetched!'
+        });
+    } catch(e){
+        return res.status(500).json({
+            success: false,
+            message: e.message
+        });
+    };
+}
+
 export {
     createProduct,
-    editProduct
+    editProduct,
+    getAllProducts
 };
