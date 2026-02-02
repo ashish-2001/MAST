@@ -173,5 +173,6 @@ async function getAverageRating(req, res){
 
 export {
     createRatingAndReview,
-    getAllRatingAndReviews
+    getAllRatingAndReviews,
+    getAverageRating
 };
