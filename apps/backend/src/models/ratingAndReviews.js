@@ -1,9 +1,11 @@
 import mongoose from "mongoose";
 
 const ratingAndReviewsSchema = new mongoose.Schema({
+
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required: true
     },
     product: {
         type: mongoose.Schema.Types.ObjectId,
@@ -20,6 +22,7 @@ const ratingAndReviewsSchema = new mongoose.Schema({
         type: String,
         required: true
     }
+    
 }, { timestamps: true });
 
 const RatingAndReview = mongoose.model('RatingAndReview', ratingAndReviewsSchema);
