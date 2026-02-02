@@ -59,5 +59,8 @@ async function createAddress(req, res){
 };
 
 export {
-    createAddress
+    createAddress,
+    editAddress,
+    getAllAddresses,
+    deleteAddress
 };
