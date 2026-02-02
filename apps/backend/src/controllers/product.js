@@ -256,8 +256,61 @@ async function getAllProductDetails(req, res){
     };
 }
 
+async function deleteProduct(req, res){
+
+    try{
+        const userId = req.user.userId;
+
+        const productId = req.params;
+
+        const product = await Product.findById(productId);
+
+        const user = await User.findById(userId);
+
+        if(!productId){
+            return res.status(404).json({
+                success: false,
+                message: 'Product not found!'
+            });
+        };
+
+        if(!userId){
+            return res.status(404).json({
+                success: false,
+                message: 'User not found!'
+            });
+        };
+
+        await Product.findByIdAndDelete(productId);
+
+        await Category.findByIdAndUpdate(product.categories._id, {
+            $pull: {
+                products: productId
+            }
+        });
+
+        await User.findByIdAndUpdate(product.createdBy._id, {
+            $pull: {
+                products: productId
+            }
+        });
+
+        return res.status(200).json({
+            success: true,
+            message: 'Product deleted successfully!'
+        });
+        
+    } catch(e){
+        return res.status(500).json({
+            success: false,
+            message: e.message
+        })
+    }
+}
+
 export {
     createProduct,
     editProduct,
-    getAllProducts
+    getAllProducts,
+    getAllProductDetails
 };
