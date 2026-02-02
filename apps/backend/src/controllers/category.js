@@ -137,7 +137,7 @@ async function addProductToCategory(req, res){
 async function editCategory(req, res){
 
     const userId = req.user.userId;
-    const categoryId = req.params;
+    const { categoryId } = req.params;
 
     try{
         const parsedResult = categoryValidator.safeParse(req.body);
@@ -239,11 +239,12 @@ async function getAllCategory(req, res){
 };
 
 async function deleteCategory(req, res){
+    
     const userId = req.user.userId;
 
-    const { categoryId, productId } = req.params;
     try{
 
+        const { categoryId  } = req.params;
         const user = await User.findById(userId);
 
         if(!user){
@@ -253,9 +254,9 @@ async function deleteCategory(req, res){
             });
         };
 
-        const categoryId = await Category.findById(categoryId);
+        const category = await Category.findById(categoryId);
 
-        if(!categoryId){
+        if(!category){
             return res.status(404).json({
                 success: false,
                 message: "Category not found!"
