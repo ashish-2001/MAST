@@ -95,6 +95,31 @@ async function createRatingAndReview(req, res){
     };
 };
 
+async function getAllRatingAndReviews(req, res){
+
+    try{
+        const allRatingAndReviews = await RatingAndReview.find().sort({ rating: '-1' }).populate({ path: 'user', select: 'firstName lastName thumbnailImage' }).populate({ path: 'product', select: 'productName' });
+
+        if(!allRatingAndReviews){
+            return res.status(403).json({
+                success: false,
+                message: "All rating and reviews couldn't be fetched successfully!"
+            });
+        };
+        
+        return res.status(200).json({
+            data: allRatingAndReviews,
+            success: true,
+            message: 'All rating and reviews fetched successfullY!'
+        })
+    } catch(e){
+        return res.status(500).json({
+            success: false,
+            message: e.message
+        });
+    };
+};
+
 export {
     createRatingAndReview
 };
