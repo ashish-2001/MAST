@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { ratingAndReviewValidator } from "../../../../packages/shared/schemas/ratingAndReviewSchema";
 import { Product } from "../models/products";
 import { RatingAndReview } from "../models/ratingAndReviews";
@@ -106,7 +107,7 @@ async function getAllRatingAndReviews(req, res){
                 message: "All rating and reviews couldn't be fetched successfully!"
             });
         };
-        
+
         return res.status(200).json({
             data: allRatingAndReviews,
             success: true,
@@ -120,6 +121,57 @@ async function getAllRatingAndReviews(req, res){
     };
 };
 
+async function getAverageRating(req, res){
+
+    const { productId } = req.params;
+
+    if(!productId || !mongoose.Types.ObjectId(productId)){
+        return res.status(400).json({
+            success: false,
+            message: "Invalid object id!"
+        });
+    };
+    try{
+
+        const result = await RatingAndReview.aggregate([
+            {
+                $match: {
+                    product: mongoose.Types.ObjectId(productId) 
+                }
+            },
+            {
+                $group: {
+                    _id: null,
+                    averageRating: {
+                        $avg: "$rating"
+                    },
+                    totalReviews: {
+                        $sum: 1
+                    }
+                }
+            }
+        ]);
+
+        const averageRating = result.length > 0 ? Math.round(result[0].averageRating * 10) / 10 : 0;
+        
+        const totalReviews = result.length > 0 ? result[0].totalReviews : 0;
+
+        return res.status(200).json({
+            averageRating,
+            totalReviews,
+            success: true,
+            message: 'Average rating and total reviews!'
+        });
+    } catch(e){
+        return res.status(500).json({
+            success: false,
+            message: e.message
+        });
+    };
+};
+
+
 export {
-    createRatingAndReview
+    createRatingAndReview,
+    getAllRatingAndReviews
 };
