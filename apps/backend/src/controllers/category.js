@@ -209,6 +209,86 @@ async function editCategory(req, res){
     };
 };
 
+async function getAllCategory(req, res){
+
+    try{
+        const allCategory = await Category.find({}, {
+            categoryName: true,
+            categoryDescription: true,
+            thumbnailImage: true
+        });
+
+        if(!allCategory){
+            return res.status(404).json({
+                success: false,
+                message: "Category couldn't be fetched successfully!"
+            });
+        };
+        
+        return res.status(200) .json({
+            data: allCategory,
+            success: true,
+            message: "All categories fetched successfully!"
+        })
+    } catch(e){
+        return res.status(500).json({
+            success: false,
+            message: e.message
+        });
+    };
+};
+
+async function deleteCategory(req, res){
+    const userId = req.user.userId;
+
+    const { categoryId, productId } = req.params;
+    try{
+
+        const user = await User.findById(userId);
+
+        if(!user){
+            return res.status(404).json({
+                success: false,
+                message: "User not found!"
+            });
+        };
+
+        const categoryId = await Category.findById(categoryId);
+
+        if(!categoryId){
+            return res.status(404).json({
+                success: false,
+                message: "Category not found!"
+            });
+        };
+
+        if(category.products.length > 0){
+            return res.status(400).json({
+                success: false,
+                message: "Remove product before deleting category!"
+            });
+        };
+
+        await Product.updateMany(
+            { 
+                categories: categoryId
+            },
+            {
+                $pull: {
+                    categories: categoryId
+                }
+            }
+        );
+
+        await Category.findByIdAndDelete(categoryId);
+
+    } catch(e){
+        return res.status(500).json({
+            success: false,
+            message: e.message
+        });
+    };
+};
 
 export {
     createCategory,
