@@ -194,6 +194,34 @@ async function editProduct(req, res){
     };
 };
 
+async function getAllProducts(req, res){
+
+    try{
+        const allProducts = await Products.find({}, 
+            {
+                productName: true,
+                productDescription: true,
+                productPrice: true,
+                productStock: true,
+                thumbnailImage: true,
+                createdBy: true,
+                customerPurchased: true
+            }
+        );
+
+        return res.status(200).json({
+            data: allProducts,
+            success: true,
+            message: 'All products fetched successfully!'
+        })
+    } catch(e){
+        return req.status(500).json({
+            success: false,
+            message: e.message
+        });
+    };
+};
+
 export {
     createProduct,
     editProduct
