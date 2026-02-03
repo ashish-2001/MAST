@@ -99,7 +99,7 @@ async function exchangeOrder(req, res){
             });
         };
 
-        i(!items || items.length === 0){
+        if(!items || items.length === 0){
             return res.status(400).json({
                 success: false,
                 message: "Exchange items required!"
