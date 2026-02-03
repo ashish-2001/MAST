@@ -2,67 +2,67 @@ import { User } from "../models/user.jss";
 import { Product } from "../models/products.js";
 import { Order } from "../models/order.js";
 
-async function createOrder(req, res){
-
+async function cancelOrder(req, res){
     const userId = req.user.userId;
-    const items = req.body;
+    const { orderId } = req.params;
 
     try{
-        const user = await User.findById(userId);
+        if(!mongoose.Types.ObjectId.isValid(orderId)){
+            return res.status(400).json({
+                success: false,
+                message: "Invalid order id!"
+            });
+        }
 
-        if(!user){
+        const order = await Order.findById(orderId);
+
+        if(!order){
             return res.status(403).json({
                 success: false,
-                message: "User not found!"
+                message: "Order not found!"
             });
         };
 
-        const product = await Product.findById(items.product);
-
-        if(!product){
+        if(order.user.toString() !== userId){
             return res.status(403).json({
                 success: false,
-                message: "Product not found!"
+                message: "Not authorized!"
             });
         };
 
-        let totalAmount = 0;
-        let processedItems = [];
-
-        for ( let item of items ){
-            const product = await Product.findById(items.product);
-
-            if(!product){
-                return res.status(403).json({
-                    success: false,
-                    message: "Product not found!"
-                });
-            };
-
-            totalAmount += product.price * item.quantity;
-
-            processedItems.push({
-                productId: product._id,
-                quantity: item.quantity,
-                totalAmount,
-                orderStatus: "Pending"
+        if(["Shipped", "Delivered"].includes(order.orderStatus)){
+            return res.status(400).json({
+                success: false,
+                message: "Order cannot be cancelled now!"
             });
         };
 
-        const order = await Order.create({
-            user: userId,
-            items: processedItems,
-            totalAmount,
-            status: 'Pending'
-        });
+        if(order.orderStatus === "Cancelled"){
+            return res.status(400).json({
+                success: false,
+                message: "Order already cancelled!"
+            });
+        };
+
+        for(item of order.items){
+            await Product.findByIdAndUpdate( item.product,
+                {
+                    $inc: {
+                        productStock: item.quantity
+                    }
+                }
+            );
+        };
+
+        order.orderStatus = "Cancelled";
+        await order.save();
 
         return res.status(200).json({
-            data: order,
             success: false,
-            message: "Order placed successfully!"
+            message: "Order cancelled successfully!",
+            data: order
         });
-
-    }catch(e){
+    } catch(e){
         return res.status(500).json({
             success: false,
             message: e.message
@@ -70,15 +70,146 @@ async function createOrder(req, res){
     };
 };
 
-async function cancelOrder(req, res){
+async function exchangeOrder(req, res){
+    const userId = req.user.userId;
+    const { orderId } = req.params;
+    const { items } = req.body;
 
-}
+    try{
+        const order = await Order.findById(orderId);
+
+        if(!order){
+            return res.status(404).json({
+                success: false,
+                message: "Order not found!"
+            });
+        };
+
+        if(order.user.toString() !== userId){
+            return res.status(403).json({
+                success: false,
+                message: "Not authorized!"
+            });
+        };
+
+        if(order.orderStatus !== "Delivered"){
+            return res.status(400).json({
+                success: false,
+                message: "Only delivered order can be exchanged!"
+            });
+        };
+
+        i(!items || items.length === 0){
+            return res.status(400).json({
+                success: false,
+                message: "Exchange items required!"
+            });
+        };
+
+        let totalAmount = 0;
+        const processedItems = [];
+
+        for(const item of items){
+            const product = await Product.findById(item.product);
+
+            if(!product){
+                return res.status(404).json({
+                    success: false,
+                    message: "Product not found!"
+                });
+            }
+
+            if(product.productStock < item.quantity){
+                return res.status(400).json({
+                    success: false,
+                    message: "Insufficient stock!"
+                });
+            };
+
+            totalAmount += product.productPrice * item.quantity;
+            processedItems.push({
+                product: product._id,
+                quantity: item.quantity,
+                priceAtPurchase: product.productPrice
+            });
+
+            product.productStock -= item.quantity;
+            await product.save();
+        }
+
+        order.orderStatus = "Cancelled";
+        await order.save();
+
+        const newOrder = await Order.create({
+            user: userId,
+            items: processedItems,
+            totalAmount,
+            orderStatus: "Paid"
+        });
+
+        return res.status(201).json({
+            success: false,
+            message: "Order exchanged successfully!",
+            oldOrder: order._id,
+            newOrder
+        });
+    } catch(error){
+        return res.status(500).json({
+            success: false,
+            message: e.message
+        });
+    };
+};
 
 async function updateOrderStatus(req, res){
+    const { orderId } = req.params;
+    const { orderStatus } = req.body;
 
-}
+    const allowed = ["Shipped", "Delivered"];
+
+    try{
+        const order = await Order.findById(orderId);
+
+        if(!order){
+            return res.status(404).json({
+                success: false,
+                message: "Order not found!"
+            });
+        };
+
+        if(order.orderStatus === "Cancelled"){
+            return res.status(400).json({
+                success: false,
+                message: "Cancelled orders cannot be updated!"
+            });
+        };
+
+        if(order.orderStatus === "Paid" && orderStatus === "Shipped" || order.orderStatus === "Shipped" && orderStatus === "Delivered"){
+            order.orderStatus = orderStatus;
+            await order.save();
+        } else {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid status transition!"
+            });
+        };
+
+        return res.status(200).json({
+            success: true,
+            message: "Order status updated",
+            order
+        });
+    } catch(e){
+        return res.status(500).json({
+            success: false,
+            message: e.message
+        });
+    }
+};
 
 
 export {
-    createOrder
+    cancelOrder,
+    exchangeOrder,
+    updateOrderStatus
 };
