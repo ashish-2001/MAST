@@ -184,7 +184,7 @@ async function sendPaymentSuccessfulEmail(req, res){
             success: true,
             message: "Email sent after payment successfully done!"
         });
-        
+
     } catch(e){
         return res.status(500).json({
             success: false, 
@@ -195,5 +195,6 @@ async function sendPaymentSuccessfulEmail(req, res){
 
 export {
     createPayment,
-    verifyPaymentAndCreateOrder
-}
+    verifyPaymentAndCreateOrder,
+    sendPaymentSuccessfulEmail
+};
