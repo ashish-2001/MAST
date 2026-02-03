@@ -194,7 +194,7 @@ async function sendPaymentSuccessfulEmail(req, res){
 }
 
 export {
-    createPayment,
+    capturePayment,
     verifyPaymentAndCreateOrder,
     sendPaymentSuccessfulEmail
 };
