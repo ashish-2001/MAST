@@ -145,6 +145,54 @@ async function verifyPaymentAndCreateOrder(){
     };
 };
 
+async function sendPaymentSuccessfulEmail(req, res){
+
+    const userId = req.user.userId;
+
+    try{
+        const { orderId, paymentId, amount } = req.body;
+
+        if(!orderId || paymentId || !amount || !userId){
+            return res.status(403).json({
+                success: false,
+                message: "All the details are required!"
+            });
+        };
+
+        const customersPurchased = await User.findById(userId);
+
+        if(!customersPurchased){
+            return res.status(403).json({
+                success: false,
+                message: "Product is not purchased by customer!"
+            });
+        };
+
+        await mailSender(
+            customersPurchased.email,
+            'Payment received',
+            paymentSuccessfulEmail(
+                `${customersPurchased.firstName} ${customersPurchased.lastName}`,
+                amount / 100,
+                paymentId,
+                orderId
+            )
+        );
+
+        return res.status(200).json({
+            data: customersPurchased,
+            success: true,
+            message: "Email sent after payment successfully done!"
+        });
+        
+    } catch(e){
+        return res.status(500).json({
+            success: false, 
+            message: e.message
+        })
+    }
+}
+
 export {
     createPayment,
     verifyPaymentAndCreateOrder
