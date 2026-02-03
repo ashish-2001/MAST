@@ -70,6 +70,15 @@ async function createOrder(req, res){
     };
 };
 
+async function cancelOrder(req, res){
+
+}
+
+async function updateOrderStatus(req, res){
+
+}
+
+
 export {
     createOrder
 };
