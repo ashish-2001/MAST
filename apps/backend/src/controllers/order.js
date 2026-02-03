@@ -57,12 +57,11 @@ async function createOrder(req, res){
         });
 
         return res.status(200).json({
-            data: order
+            data: order,
             success: false,
             message: "Order placed successfully!"
         });
 
-        
     }catch(e){
         return res.status(500).json({
             success: false,
