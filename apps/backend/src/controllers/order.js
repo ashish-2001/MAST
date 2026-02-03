@@ -1,5 +1,6 @@
-import { User } from "../models/user.js";
+import { User } from "../models/user.jss";
 import { Product } from "../models/products.js";
+import { Order } from "../models/order.js";
 
 async function createOrder(req, res){
 
@@ -25,7 +26,43 @@ async function createOrder(req, res){
             });
         };
 
+        let totalAmount = 0;
+        let processedItems = [];
 
+        for ( let item of items ){
+            const product = await Product.findById(items.product);
+
+            if(!product){
+                return res.status(403).json({
+                    success: false,
+                    message: "Product not found!"
+                });
+            };
+
+            totalAmount += product.price * item.quantity;
+
+            processedItems.push({
+                productId: product._id,
+                quantity: item.quantity,
+                totalAmount,
+                orderStatus: "Pending"
+            });
+        };
+
+        const order = await Order.create({
+            user: userId,
+            items: processedItems,
+            totalAmount,
+            status: 'Pending'
+        });
+
+        return res.status(200).json({
+            data: order
+            success: false,
+            message: "Order placed successfully!"
+        });
+
+        
     }catch(e){
         return res.status(500).json({
             success: false,
