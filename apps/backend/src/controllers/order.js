@@ -1,9 +1,10 @@
-import { User } from "../models/user";
+import { User } from "../models/user.js";
+import { Product } from "../models/products.js";
 
 async function createOrder(req, res){
 
     const userId = req.user.userId;
-    const productId = req.params;
+    const items = req.body;
 
     try{
         const user = await User.findById(userId);
@@ -15,7 +16,7 @@ async function createOrder(req, res){
             });
         };
 
-        const product = await Product.findById(productId);
+        const product = await Product.findById(items.product);
 
         if(!product){
             return res.status(403).json({
