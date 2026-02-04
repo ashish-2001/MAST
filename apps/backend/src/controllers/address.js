@@ -60,7 +60,14 @@ async function createAddress(req, res){
 
 async function editAddress(req, res){
     const userId = req.user.userId;
-    const addressId = req.params;
+    const { addressId } = req.params;
+
+    if(!mongoose.Types.objectId.isValid(addressId)){
+        return res.status(403).json({
+            success: false,
+            message: "Address id is invalid!"
+        });
+    };
 
     try{
 
@@ -125,7 +132,96 @@ async function editAddress(req, res){
             message: e.message
         })
     }
-}
+};
+
+async function getAllAddresses(){
+
+    const userId = req.user.userId;
+    const { addressId } = req.params;
+
+    if(!mongoose.Types.objectId.isValid(addressId)){
+        return res.status(403).json({
+            success: false,
+            message: "Address is invalid!"
+        });
+    };
+
+    try{
+        const allAddresses = await User.findById(userId).populate({
+            path: "addresses",
+            select: "address landmark city state pinCode"
+        });
+
+        if(!allAddresses){
+            return res.status(404).json({
+                success: false,
+                message: "Addresses couldn't be fetched successfully!"
+            });
+        };
+
+        return res.status(200).json({
+            success: false,
+            message: "Addresses fetched successfully!",
+            data: allAddresses
+        });
+    } catch(e){
+        return res.status(500).json({
+            success: false,
+            message: e.message
+        });
+    };
+};
+
+async function deleteAddress(req, res){
+    const userId = req.user.userId;
+    const { addressId } = req.params;
+
+    if(!mongoose.Types.objectId.isValid(addressId)){
+        return res.status(403).json({
+            success: false,
+            message: "Address id is invalid!"
+        });
+    };
+
+    try{
+        const user = await User.findById(userId);
+
+        if(!user){
+            return res.status(404).json({
+                success: false,
+                message: "User not found!"
+            });
+        };
+
+        const address = await Address.findById(addressId);
+
+        if(!address){
+            return res.status(404).json({
+                success: false,
+                message: "Address not found!"
+            });
+        };
+
+        await User.findByIdAndUpdate(userId, {
+            $pull: {
+                addresses: addressId
+            }
+        });
+
+        await Address.findByIdAndDelete(addressId);
+
+        return res.status(200).json({
+            success: true,
+            message: "Address deleted successfully!"
+        });
+    }catch(e){
+        return res.status(500).json({
+            success: false,
+            message: e.message
+        });
+    };
+
+};
 
 export {
     createAddress,
