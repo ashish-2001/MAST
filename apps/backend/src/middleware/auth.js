@@ -68,4 +68,4 @@ export {
     auth,
     isCustomer,
     IsAdmin
-}
+};
