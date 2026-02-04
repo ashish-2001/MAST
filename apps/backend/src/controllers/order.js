@@ -266,7 +266,7 @@ async function returnOrder(req, res){
             }
         );
 
-        for(let item of items){
+        for(let item of order.items){
             await Product.findByIdAndUpdate(item.product, {
                 $inc: { productStock: item.quantity }
             })
