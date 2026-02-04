@@ -16,4 +16,4 @@ async function connect(){
 
 export {
     connect
-}
+};
