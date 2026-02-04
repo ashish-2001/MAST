@@ -1,6 +1,7 @@
 import { User } from "../models/user.jss";
 import { Product } from "../models/products.js";
 import { Order } from "../models/order.js";
+import { success } from "zod";
 
 async function cancelOrder(req, res){
     const userId = req.user.userId;
@@ -44,6 +45,18 @@ async function cancelOrder(req, res){
             });
         };
 
+        if(order.orderStatus !== "Paid"){
+            return res.status(400).json({
+                success: false,
+                message: "Only paid orders can be cancelled!"
+            });
+        };
+
+        const refund = await razorpay.payments.refund(
+            order.razorpayPaymentId,
+            { amount: order.totalAmount * 100 }
+        );
+
         for(item of order.items){
             await Product.findByIdAndUpdate( item.product,
                 {
@@ -60,7 +73,7 @@ async function cancelOrder(req, res){
         return res.status(200).json({
             success: false,
             message: "Order cancelled successfully!",
-            data: order
+            refundId: refund.id
         });
     } catch(e){
         return res.status(500).json({
@@ -204,6 +217,74 @@ async function updateOrderStatus(req, res){
             success: false,
             message: e.message
         });
+    }
+};
+
+async function returnOrder(req, res){
+    const userId = req.user.userId;
+    const { orderId } = req.params;
+
+    try{
+        const order = await Order.findById(orderId);
+
+        if(!order){
+            return res.status(404).json({
+                success: false,
+                message: "Order not found!"
+            });
+        };
+
+        const user = await User.findById(userId);
+
+        if(!user){
+            return res.status(404).json({
+                success: false,
+                message: "User not found!"
+            });
+        };
+
+        if(order.orderStatus !== "Delivered"){
+            return res.status(400).json({
+                success: false,
+                message: "Only delivered order can be cancelled!"
+            });
+        };
+
+        const SEVEN_DAYS = 7 * 24 * 60 * 60 * 1000;
+        const orderTime = Date.now - new Date(order.createdAt).getTime();
+
+        if(orderAge > SEVEN_DAYS){
+            return res.status(400).json({
+                success: false,
+                message: "Return period expired! Products can only be returned within 7 days."
+            });
+        };
+
+        const refund = await razorpay.payments.refund(
+            order.razorpayPaymentId, {
+                amount: order.totalAmount * 100
+            }
+        );
+
+        for(let item of items){
+            await Product.findByIdAndUpdate(item.product, {
+                $inc: { productStock: item.quantity }
+            })
+        };
+
+        order.orderStatus = "Returned";
+        await order.save();
+
+        return res.status(200).json({
+            success: true,
+            message: "Order returned and refund initiated successfully!",
+            refundId: refund.id
+        });
+    } catch(e){
+        return res.status(500).json({
+            success: false,
+            message: e.message
+        })
     }
 };
 
