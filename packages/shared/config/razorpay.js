@@ -1,18 +1,13 @@
-import { cloudinary } from "cloudinary";
+import Razorpay from "razorpay";
+import dotenv from 'dotenv';
 
+dotenv.config();
 
-function cloudinaryConnect(){
-    try{
-        cloudinary.config({
-            cloud_name: process.env.CLOUD_NAME,
-            api_key: process.env.API_KEY,
-            api_secret: process.env.API_SECRET
-        });
-    }catch(e){
-        console.log(e.message);
-    }
-};
+let instance = new Razorpay({
+    key_id: process.env.RAZORPAY_KEY,
+    key_secret: process.env.RAZORPAY_SECRET
+});
 
 export {
-    cloudinaryConnect
-};
+    instance
+}
