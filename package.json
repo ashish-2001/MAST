@@ -24,7 +24,9 @@
   "dependencies": {
     "bcrypt": "^6.0.0",
     "cloudinary": "^2.9.0",
+    "dotenv": "^17.2.3",
     "mongoose": "^9.1.5",
+    "razorpay": "^2.9.6",
     "zod": "^4.3.6"
   }
 }
