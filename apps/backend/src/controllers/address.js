@@ -75,7 +75,10 @@ async function editAddress(req, res){
 
         const { address, landmark, city, state, pinCode } = parsedResult.data;
 
-        const user = await User.findById(userId);
+        const user = await User.findById(userId).populate({
+            path: "addresses",
+            select: "address landmark city state pinCode"
+        });
 
         if(!user){
             return res.status(404).json({
@@ -94,12 +97,12 @@ async function editAddress(req, res){
         };
 
         addresses.address = address;
-        addresses.landMark = landmark;
+        addresses.landmark = landmark;
         addresses.city = city;
         addresses.state = state;
         addresses.pinCode = pinCode;
 
-        addresses.save();
+        await addresses.save();
 
         const updatedAddress = await Address.findById({ _id: addressId });
 
