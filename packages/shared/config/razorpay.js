@@ -15,4 +15,4 @@ function cloudinaryConnect(){
 
 export {
     cloudinaryConnect
-}
+};
