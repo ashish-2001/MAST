@@ -3,7 +3,7 @@ import { Product } from "../models/products.js";
 import { Order } from "../models/order.js";
 
 
-async function markOrderAssDelivered(req, res){
+async function markOrderAsDelivered(req, res){
 
     const userId = req.user.userId;
     const { orderId } = req.params;
@@ -26,6 +26,15 @@ async function markOrderAssDelivered(req, res){
             });
         };
 
+        const user = await User.findById(userId);
+
+        if(!user){
+            return res.status(404).json({
+                success: false,
+                message: "User not found!"
+            });
+        };
+        
         if(order.orderStatus !== "Shipped"){
             return res.status(400).json({
                 success: false,
@@ -53,16 +62,17 @@ async function markOrderAssDelivered(req, res){
 };
 
 async function cancelOrder(req, res){
+
     const userId = req.user.userId;
     const { orderId } = req.params;
+    if(!mongoose.Types.ObjectId.isValid(orderId)){
+        return res.status(400).json({
+            success: false,
+            message: "Invalid order id!"
+        });
+    }
 
     try{
-        if(!mongoose.Types.ObjectId.isValid(orderId)){
-            return res.status(400).json({
-                success: false,
-                message: "Invalid order id!"
-            });
-        }
 
         const order = await Order.findById(orderId);
 
@@ -73,14 +83,14 @@ async function cancelOrder(req, res){
             });
         };
 
-        if(order.user.toString() !== userId){
-            return res.status(403).json({
+        if(order.orderStatus !== "Paid"){
+            return res.status(400).json({
                 success: false,
-                message: "Not authorized!"
+                message: "Only paid orders can be cancelled!"
             });
         };
 
-        if(["Shipped", "Delivered"].includes(order.orderStatus)){
+        if(["Delivered"].includes(order.orderStatus)){
             return res.status(400).json({
                 success: false,
                 message: "Order cannot be cancelled now!"
@@ -295,14 +305,14 @@ async function returnOrder(req, res){
         if(order.orderStatus !== "Delivered"){
             return res.status(400).json({
                 success: false,
-                message: "Only delivered order can be cancelled!"
+                message: "Only delivered order can be returned!"
             });
         };
 
         const SEVEN_DAYS = 7 * 24 * 60 * 60 * 1000;
         const orderTime = Date.now - new Date(order.createdAt).getTime();
 
-        if(orderAge > SEVEN_DAYS){
+        if(orderTime > SEVEN_DAYS){
             return res.status(400).json({
                 success: false,
                 message: "Return period expired! Products can only be returned within 7 days."
@@ -339,7 +349,7 @@ async function returnOrder(req, res){
 
 
 export {
-    markOrderAssDelivered,
+    markOrderAsDelivered,
     cancelOrder,
     exchangeOrder,
     updateOrderStatus,
