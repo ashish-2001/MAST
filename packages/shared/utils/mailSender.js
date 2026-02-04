@@ -27,4 +27,4 @@ async function mailSender(email, title, body){
 
 export { 
     mailSender
-}
+};
