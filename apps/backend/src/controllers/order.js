@@ -1,7 +1,56 @@
 import { User } from "../models/user.jss";
 import { Product } from "../models/products.js";
 import { Order } from "../models/order.js";
-import { success } from "zod";
+
+
+async function markOrderAssDelivered(req, res){
+
+    const userId = req.user.userId;
+    const { orderId } = req.params;
+
+    if(!mongoose.Types.objectId.isValid(orderId)){
+        return res.status(403).json({
+            success: false,
+            message: "Invalid order id!"
+        });
+    };
+
+    try{
+
+        const order = await Order.findById(orderId);
+
+        if(!order){
+            return res.status(404).json({
+                success: false,
+                message: "Order not found!"
+            });
+        };
+
+        if(order.orderStatus !== "Shipped"){
+            return res.status(400).json({
+                success: false,
+                message: "Only shipped orders can be marked as delivered!"
+            });
+        };
+
+        order.orderStatus = "Delivered!";
+        order.deliveredAt = new Date();
+
+        await order.save();
+
+        return res.status(200).json({
+            data: order,
+            success: false,
+            message: "Order delivered!"
+        });
+    }catch(e){
+        return res.status(500).json({
+            success: false,
+            message: e.message
+        });
+    };
+
+};
 
 async function cancelOrder(req, res){
     const userId = req.user.userId;
