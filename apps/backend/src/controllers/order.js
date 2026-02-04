@@ -339,7 +339,9 @@ async function returnOrder(req, res){
 
 
 export {
+    markOrderAssDelivered,
     cancelOrder,
     exchangeOrder,
-    updateOrderStatus
+    updateOrderStatus,
+    returnOrder
 };
