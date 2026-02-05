@@ -8,7 +8,7 @@ router.post("/createCategory", auth, IsAdmin, createCategory);
 router.get("/getAllCategories", auth, getAllCategory);
 router.put("/updateCategory/:categoryId", auth, IsAdmin, editCategory);
 router.delete("/deleteCategory/:categoryId", auth, IsAdmin, deleteCategory);
-router.post("/addProductToCategory", auth, IsAdmin, addProductToCategory);
+router.post("/addProductToCategory/:categoryId/products", auth, IsAdmin, addProductToCategory);
 
 export {
     router
