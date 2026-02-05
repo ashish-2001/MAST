@@ -1,6 +1,7 @@
 import { success } from "zod";
 import { Contact } from "../models/contactUs";
 import { contactValidator } from "../../../../packages/shared/schemas/contactSchema";
+import { mailSender } from "../../../../packages/shared/utils/mailSender";
 
 async function createContact(req, res){
 
@@ -18,10 +19,38 @@ async function createContact(req, res){
         };
         
         const { name, email, subject, message, status } = parsedResult.data;
-        
-        const contact = await Contact.create({
 
-        })
+        const contact = await Contact.create({
+            name,
+            email,
+            subject,
+            message,
+            status
+        });
+
+        if(!contact){
+            return res.status(403).json({
+                success: false,
+                message: "Contact couldn't be created!"
+            });
+        };
+
+        const infoSend = await mailSender({
+                from: `"Customer ${process.env.MAIL_USER}"`,
+                to: process.env.MAIL_USER,
+                subject: "New message from customer!",
+                message: "There is a issue while purchasing!",
+                status: "Pending",
+                html: `<p>${message}</p>`,
+                replyTo: email
+            }
+        );
+
+        return res.status(200).json({
+            messageData: infoSend,
+            success: true,
+            message: "Message sent successfully!"
+        });
     } catch(e){
         return res.status(e).json({
             success: false,
