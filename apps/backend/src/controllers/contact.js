@@ -2,6 +2,7 @@ import { success } from "zod";
 import { Contact } from "../models/contactUs";
 import { contactValidator } from "../../../../packages/shared/schemas/contactSchema";
 import { mailSender } from "../../../../packages/shared/utils/mailSender";
+import { User } from "../models/user";
 
 async function createContact(req, res){
 
@@ -71,6 +72,94 @@ async function createContact(req, res){
     }
 };
 
+async function deleteContactMessage(req, res){
+    const userId = req.user.userId;
+    const { contactId } = req.params;
+
+    try{
+        const user = await User.findById(userId);
+
+        if(!user){
+            return res.status(404).json({
+                success: false,
+                message: "User not found!"
+            });
+        };
+
+        const contactMessage = await Contact.findById(contactId);
+
+        if(!contactMessage){
+            return res.status(404).json({
+                success: false,
+                message: "Contact message not found!"
+            });
+        };
+
+        await Contact.findByIdAndDelete(contactId);
+
+        return res.status(200).json({
+            success: false,
+            message: "Contact message deleted successfully!"
+        });
+    }catch(e){
+        return res.status(500).json({
+            success: false,
+            message: e.message
+        })
+    }
+};
+
+async function updateContactMessageStatus(req, res){
+    const userId = req.user.userId;
+    const { contactId } = req.params;
+    const { status } = req.body;
+
+    try{
+        const user = await User.findById(userId);
+        if(!user){
+            return res.status(404).json({
+                success: false,
+                message: "User not found!"
+            });
+        };
+
+        const contactMessage = await Contact.findById(contactId);
+        if(!contactMessage){
+            return res.status(404).json({
+                success: false,
+                message: "Contact message not found!"
+            })
+        }
+
+        if(contactMessage.status === "Resolved"){
+            return res.status(400).json({
+                success: false,
+                message: "Contact message status is already resolved!"
+            });
+        };
+
+        contactMessage.status = status;
+        await contactMessage.save();
+
+        await mailSender({
+            from: `From Mast team, <${process.env.MAIL_USER}>`,
+            to: contactMessage.email,
+            subject: "Regarding problems while purchasing!",
+            html: `
+                <p>Your problem has been resolved</p>
+                <p><b>Regards, MAST team</b></p>
+            `
+        });
+    }catch(e){
+        return res.status(500).json({
+            success: false,
+            message: e.message
+        });
+    };
+
+};
+
 export {
-    createContact
+    createContact,
+    deleteContactMessage
 }
