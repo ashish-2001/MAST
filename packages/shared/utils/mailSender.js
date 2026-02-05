@@ -2,7 +2,7 @@ import nodemailer from "nodemailer";
 
 async function mailSender(email, title, body){
     try{
-        let transporter = nodemailer,createTransport({
+        let transporter = nodemailer.createTransport({
             host: process.env.SMTP_HOST,
             port: process.env.SMTP_PORT,
             auth: {
