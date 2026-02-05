@@ -12,4 +12,4 @@ router.post("/addProductToCategory", auth, IsAdmin, addProductToCategory);
 
 export {
     router
-}
+};
