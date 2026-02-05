@@ -4,7 +4,7 @@ import { contactValidator } from "../../../../packages/shared/schemas/contactSch
 import { mailSender } from "../../../../packages/shared/utils/mailSender";
 import { User } from "../models/user";
 
-async function createContact(req, res){
+async function contactUs(req, res){
 
     const userId = req.user.userId;
     
@@ -191,7 +191,7 @@ async function getContactMessagesByStatus(req, res){
 };
 
 export {
-    createContact,
+    contactUs,
     deleteContactMessage,
     updateContactMessageStatus,
     getContactMessagesByStatus
