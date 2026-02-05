@@ -158,7 +158,7 @@ async function updateContactMessageStatus(req, res){
 };
 
 async function getAllContactMessages(req, res){
-    const userId = req.user.usedId;
+    const userId = req.user.userId;
 
     try{
         const user = await User.findById(userId);
