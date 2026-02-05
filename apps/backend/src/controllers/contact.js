@@ -47,6 +47,17 @@ async function createContact(req, res){
             }
         );
 
+        await mailSender({
+            from: `App support <${process.env.MAIL_USER}>`,
+            to: email,
+            subject: "Thanks for contacting us!",
+            html: `
+                <p>Hi, </p>
+                <p>We have received your message and will reply you soon.</p>
+                <p>Regards, <b>MAST team</b></p>
+            `
+        })
+
         return res.status(200).json({
             messageData: infoSend,
             success: true,
@@ -58,4 +69,8 @@ async function createContact(req, res){
             message: e.message
         })
     }
+};
+
+export {
+    createContact
 }
