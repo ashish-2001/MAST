@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import z, { lowercase, string } from "zod";
+import z from "zod";
 
 const contactSchema = new mongoose.Schema({
     name: {
@@ -7,7 +7,7 @@ const contactSchema = new mongoose.Schema({
         required: true
     },
     email: {
-        type: string,
+        type: String,
         required: true,
         lowercase: true
     },
@@ -16,7 +16,9 @@ const contactSchema = new mongoose.Schema({
         ref: "User",
         default: null
     },
-    subject: String,
+    subject: {
+        String
+    },
     message: {
         type: String,
         required: true
