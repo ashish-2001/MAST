@@ -1,6 +1,7 @@
 import { Order } from "../models/order";
 import { Product } from "../models/products";
 import { User } from "../models/user";
+import { paymentSuccessfulEmail } from "../services/mailTemplates/paymentSuccessfulEmail";
 
 async function capturePayment(req, res){
 
