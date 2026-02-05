@@ -1,4 +1,3 @@
-import { isAborted } from "zod/v3";
 import { createProduct, deleteProduct, editProduct, getAllProductDetails, getAllProducts } from "../controllers/product";
 import { auth, IsAdmin, isCustomer } from "../middleware/auth";
 import express from "express";
