@@ -1,3 +1,4 @@
+import crypto from "crypto";
 import { Order } from "../models/order";
 import { Product } from "../models/products";
 import { User } from "../models/user";
@@ -121,7 +122,7 @@ async function verifyPaymentAndCreateOrder(){
                 priceAtPurchase
             });
 
-            product.productStock -+ item.quantity;
+            product.productStock -= item.quantity;
             product.customersPurchased.push(userId);
             await product.save(); 
         };
@@ -130,7 +131,19 @@ async function verifyPaymentAndCreateOrder(){
             user: userId,
             items: processedItems,
             totalAmount,
+            paymentId: razorpay_payment_id,
             orderStatus: "Paid"
+        });
+
+        await mailSender({
+            to: user.email,
+            subject: "Payment successful",
+            html: paymentSuccessfulEmail(
+                `${user.firstName} ${user.lastName}`,
+                totalAmount,
+                razorpay_payment_id,
+                order._id
+            )
         });
 
         return res.status(200).json({
@@ -147,56 +160,7 @@ async function verifyPaymentAndCreateOrder(){
     };
 };
 
-async function sendPaymentSuccessfulEmail(req, res){
-
-    const userId = req.user.userId;
-
-    try{
-        const { orderId, paymentId, amount } = req.body;
-
-        if(!orderId || paymentId || !amount || !userId){
-            return res.status(403).json({
-                success: false,
-                message: "All the details are required!"
-            });
-        };
-
-        const customersPurchased = await User.findById(userId);
-
-        if(!customersPurchased){
-            return res.status(403).json({
-                success: false,
-                message: "Product is not purchased by customer!"
-            });
-        };
-
-        await mailSender(
-            customersPurchased.email,
-            'Payment received',
-            paymentSuccessfulEmail(
-                `${customersPurchased.firstName} ${customersPurchased.lastName}`,
-                amount / 100,
-                paymentId,
-                orderId
-            )
-        );
-
-        return res.status(200).json({
-            data: customersPurchased,
-            success: true,
-            message: "Email sent after payment successfully done!"
-        });
-
-    } catch(e){
-        return res.status(500).json({
-            success: false, 
-            message: e.message
-        })
-    }
-}
-
 export {
     capturePayment,
-    verifyPaymentAndCreateOrder,
-    sendPaymentSuccessfulEmail
+    verifyPaymentAndCreateOrder
 };
