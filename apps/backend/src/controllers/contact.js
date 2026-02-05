@@ -154,51 +154,45 @@ async function updateContactMessageStatus(req, res){
             message: e.message
         });
     };
-
 };
 
-async function getAllContactMessages(req, res){
-    const userId = req.user.userId;
-
+async function getContactMessagesByStatus(req, res){
     try{
-        const user = await User.findById(userId);
-
-        if(!user){
-            return res.status(404).json({
+        const { status } = req.query;
+        if(!["Pending", "Resolved"].includes(status)){
+            return res.status(400).json({
                 success: false,
-                message: "User not found!"
+                message: "Invalid status!"
             });
         };
 
-        const allContactMessages = await Contact.find({}, {
-            name: true,
-            email: true,
-            subject: true,
-            message: true,
-            status: true
-        });
+        const messages = await Contact.find({
+            status
+        }, "name email subject message status").sort({ createdAt: -1 });
 
-        if(!allContactMessages){
+        if(!messages){
             return res.status(404).json({
                 success: false,
-                message: "Contact message couldn't be fetched!"
-            });
-        };
+                message: "Message not fetched!"
+            })
+        }
 
         return res.status(200).json({
+            messages: messages,
             success: true,
-            message: "All contact messages fetched successfully!"
+            message: "All messages fetched status wise successfully!"
         });
     } catch(e){
         return res.status(500).json({
             success: false,
             message: e.message
-        });
+        })
     };
 };
 
 export {
     createContact,
     deleteContactMessage,
-    updateContactMessageStatus
+    updateContactMessageStatus,
+    getContactMessagesByStatus
 }
