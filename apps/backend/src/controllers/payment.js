@@ -40,8 +40,8 @@ async function capturePayment(req, res){
                     success: false,
                     message: `Insufficient stock for ${product.productName}`
                 })
-                totalAmount += product.productPrice * item.quantity
             }
+            totalAmount += product.productPrice * item.quantity;
         };
 
         const razorpayOrder = await instance.orders.create({
