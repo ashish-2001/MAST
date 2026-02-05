@@ -36,12 +36,13 @@ async function createContact(req, res){
         };
 
         const infoSend = await mailSender({
-                from: `"Customer ${process.env.MAIL_USER}"`,
+                from: `"Customer <${process.env.MAIL_USER}>"`,
                 to: process.env.MAIL_USER,
                 subject: "New message from customer!",
-                message: "There is a issue while purchasing!",
-                status: "Pending",
-                html: `<p>${message}</p>`,
+                html: `
+                    <p><b>Message resolve status: Pending</b></p>
+                    <p>${message}</p>
+                `,
                 replyTo: email
             }
         );
