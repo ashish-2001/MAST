@@ -70,7 +70,7 @@ async function capturePayment(req, res){
 
 async function verifyPaymentAndCreateOrder(){
 
-    const userId = req.user.userId
+    const userId = req.user.userId;
 
     try{
         const { razorpay_order_id, razorpay_payment_id, items, razorpay_signature } = req.body;
