@@ -6,9 +6,9 @@ import { auth, IsAdmin, isCustomer } from "../middleware/auth";
 const router = express.Router();
 
 router.post("/contactUs", auth, isCustomer, contactUs);
-router.delete("/deleteContactMessage", auth, IsAdmin, deleteContactMessage);
-router.put("/updateContactMessageStatus", auth, IsAdmin, updateContactMessageStatus);
-router.get("/getContactMessagesByStatus", auth, IsAdmin, getContactMessagesByStatus);
+router.delete("/contactUs/deleteContactMessage/:contactId", auth, IsAdmin, deleteContactMessage);
+router.put("/contactUs/updateContactMessageStatus/:contactId/status", auth, IsAdmin, updateContactMessageStatus);
+router.get("/contactUs/getContactMessagesByStatus", auth, IsAdmin, getContactMessagesByStatus);
 
 export { 
     router
