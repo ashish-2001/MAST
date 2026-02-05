@@ -133,6 +133,7 @@ async function verifyPaymentAndCreateOrder(){
         });
 
         return res.status(200).json({
+            data: order,
             success: true,
             message: "Products purchased successfully!"
         });
