@@ -312,5 +312,6 @@ export {
     createProduct,
     editProduct,
     getAllProducts,
-    getAllProductDetails
+    getAllProductDetails,
+    deleteProduct
 };
