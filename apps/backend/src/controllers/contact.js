@@ -86,7 +86,7 @@ async function deleteContactMessage(req, res){
             });
         };
 
-        const contactMessage = await Contact.findById(contactId);
+        const contactMessage = await Contact.findByIdAndDelete(contactId);
 
         if(!contactMessage){
             return res.status(404).json({
@@ -95,10 +95,8 @@ async function deleteContactMessage(req, res){
             });
         };
 
-        await Contact.findByIdAndDelete(contactId);
-
         return res.status(200).json({
-            success: false,
+            success: true,
             message: "Contact message deleted successfully!"
         });
     }catch(e){
@@ -159,7 +157,48 @@ async function updateContactMessageStatus(req, res){
 
 };
 
+async function getAllContactMessages(req, res){
+    const userId = req.user.usedId;
+
+    try{
+        const user = await User.findById(userId);
+
+        if(!user){
+            return res.status(404).json({
+                success: false,
+                message: "User not found!"
+            });
+        };
+
+        const allContactMessages = await Contact.find({}, {
+            name: true,
+            email: true,
+            subject: true,
+            message: true,
+            status: true
+        });
+
+        if(!allContactMessages){
+            return res.status(404).json({
+                success: false,
+                message: "Contact message couldn't be fetched!"
+            });
+        };
+
+        return res.status(200).json({
+            success: true,
+            message: "All contact messages fetched successfully!"
+        });
+    } catch(e){
+        return res.status(500).json({
+            success: false,
+            message: e.message
+        });
+    };
+};
+
 export {
     createContact,
-    deleteContactMessage
+    deleteContactMessage,
+    updateContactMessageStatus
 }
