@@ -1,5 +1,5 @@
-import { createRatingAndReview, getAllRatingAndReviews, getAverageRating } from "../controllers/ratingAndReviews";
-import { auth, isCustomer, IsAdmin } from "../middleware/auth";
+import { createRatingAndReview, getAllRatingAndReviews, getAverageRating } from "../controllers/ratingAndReviews.js";
+import { auth, isCustomer, IsAdmin } from "../middleware/auth.js";
 import express from"express";
 
 const router = express.Router();
