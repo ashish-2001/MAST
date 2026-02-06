@@ -1,6 +1,6 @@
-import { addressValidator } from "../../../../packages/shared/schemas/addressSchema";
-import { Address } from "../models/address";
-import { User } from "../models/user";
+import { addressValidator } from "../../../../packages/shared/schemas/addressSchema.js";
+import { Address } from "../models/address.js";
+import { User } from "../models/user.js";
 
 
 async function createAddress(req, res){
