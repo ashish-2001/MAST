@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
-import { ratingAndReviewValidator } from "../../../../packages/shared/schemas/ratingAndReviewSchema";
-import { Product } from "../models/products";
-import { RatingAndReview } from "../models/ratingAndReviews";
-import { User } from "../models/user";
+import { ratingAndReviewValidator } from "../../../../packages/shared/schemas/ratingAndReviewSchema.js";
+import { Product } from "../models/products.js";
+import { RatingAndReview } from "../models/ratingAndReviews.js";
+import { User } from "../models/user.js";
 
 
 async function createRatingAndReview(req, res){
