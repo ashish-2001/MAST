@@ -1,8 +1,8 @@
 import crypto from "crypto";
-import { Order } from "../models/order";
-import { Product } from "../models/products";
-import { User } from "../models/user";
-import { paymentSuccessfulEmail } from "../services/mailTemplates/paymentSuccessfulEmail";
+import { Order } from "../models/order.js";
+import { Product } from "../models/products.js";
+import { User } from "../models/user.js";
+import { paymentSuccessfulEmail } from "../services/mailTemplates/paymentSuccessfulEmail.js";
 
 async function capturePayment(req, res){
 
