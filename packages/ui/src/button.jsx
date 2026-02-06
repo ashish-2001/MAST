@@ -2,13 +2,7 @@
 
 import { ReactNode } from "react";
 
-interface ButtonProps {
-  children: ReactNode;
-  className?: string;
-  appName: string;
-}
-
-export const Button = ({ children, className, appName }: ButtonProps) => {
+function Button({ children, className, appName }){
   return (
     <button
       className={className}
@@ -17,4 +11,8 @@ export const Button = ({ children, className, appName }: ButtonProps) => {
       {children}
     </button>
   );
+};
+
+export {
+  Button
 };
