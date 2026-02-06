@@ -19,7 +19,7 @@ async function signup(req, res){
             });
         };
 
-        const { firstName, lastName, email, phoneNumber, password, confirmPassword } = parsedResult.data;
+        const { firstName, lastName, email, phoneNumber, password, confirmPassword, role } = parsedResult.data;
 
         if(password !== confirmPassword){
             return res.status(403).json({
