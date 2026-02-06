@@ -7,6 +7,7 @@ import { router as userRoute } from "./routes/userRoute.js";
 import { router as paymentRoute } from "./routes/paymentRoute.js";
 import { router as rantingAndReviewsRoute } from "./routes/ratingAndReviewsRoute.js";
 import { connect } from "../../../packages/shared/config/database.js";
+import fileUpload from "express-fileupload";
 import dotenv from "dotenv";
 
 dotenv.config();
