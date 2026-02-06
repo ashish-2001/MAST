@@ -1,8 +1,7 @@
-import { parse, success } from "zod";
-import { productValidator } from "../../../../packages/shared/schemas/productSchema";
-import { User } from "../models/user";
-import { Category } from "../models/category";
-import { Product } from "../models/products";
+import { productValidator } from "../../../../packages/shared/schemas/productSchema.js";
+import { User } from "../models/user.js";
+import { Category } from "../models/category.js";
+import { Product } from "../models/products.js";
 
 +async function createProduct(req, res){
 
