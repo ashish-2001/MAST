@@ -20,7 +20,7 @@ const otpValidator = z.object({
     role: z.enum([ROLE.ADMIN, ROLE.CUSTOMER])
 });
 
-const changePassword = z.object({
+const changePasswordValidator = z.object({
     oldPassword: z.string().min(8, "Password is too short").max(16, "Invalid Password"),
     newPassword: z.string().min(8, "New password is too short").max(16, "Invalid new password"),
     confirmNewPassword: z.string(8, "Confirm new password is too short").max(16, "Confirm new password and new password does not match")
@@ -30,5 +30,5 @@ export {
     signUpValidator,
     signInValidator,
     otpValidator,
-    changePassword
+    changePasswordValidator
 };
