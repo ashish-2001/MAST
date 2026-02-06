@@ -3,7 +3,7 @@ import { User } from "../models/user.js";
 import { Category } from "../models/category.js";
 import { Product } from "../models/products.js";
 
-+async function createProduct(req, res){
+async function createProduct(req, res){
 
     const userId = req.user.userId;
     const { categoryId, productId } = req.params;
