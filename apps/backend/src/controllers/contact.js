@@ -1,8 +1,7 @@
-import { success } from "zod";
-import { Contact } from "../models/contactUs";
-import { contactValidator } from "../../../../packages/shared/schemas/contactSchema";
-import { mailSender } from "../../../../packages/shared/utils/mailSender";
-import { User } from "../models/user";
+import { Contact } from "../models/contactUs.js";
+import { contactValidator } from "../../../../packages/shared/schemas/contactSchema.js";
+import { mailSender } from "../../../../packages/shared/utils/mailSender.js";
+import { User } from "../models/user.js";
 
 async function contactUs(req, res){
 
