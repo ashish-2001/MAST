@@ -4,11 +4,11 @@ import express from "express";
 
 const router = express.Router();
 
-router.post("/createProduct", auth, IsAdmin, createProduct);
-router.put("/editProduct/:productId", auth, IsAdmin, editProduct);
-router.get("/getAllProduct", getAllProducts);
-router.get("/getAllProductDetails", getAllProductDetails);
-router.delete("/deleteProduct/:productId", auth, IsAdmin, deleteProduct);
+router.post("/product", auth, IsAdmin, createProduct);
+router.put("/product/editProduct/:productId", auth, IsAdmin, editProduct);
+router.get("/product/getAllProduct", getAllProducts);
+router.get("/product/getAllProductDetails", getAllProductDetails);
+router.delete("/product/deleteProduct/:productId", auth, IsAdmin, deleteProduct);
 
 export {
     router
