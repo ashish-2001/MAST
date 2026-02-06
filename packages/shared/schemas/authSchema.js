@@ -1,9 +1,5 @@
 import z from "zod";
-
-const ROLE = {
-    ADMIN: "Admin",
-    CUSTOMER: "Customer"
-};
+import { ROLE } from "../constants/role.js";
 
 const signUpValidator = z.object({
     firstName: z.string().min(3, "First name should not be less than three words"),
