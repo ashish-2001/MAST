@@ -1,5 +1,5 @@
-import { changePassword, sendOtp, signin, signup } from "../controllers/Auth";
-import { auth } from "../middleware/auth";
+import { changePassword, sendOtp, signin, signup } from "../controllers/Auth.js";
+import { auth } from "../middleware/auth.js";
 import express from "express";
 
 const router = express.Router();
