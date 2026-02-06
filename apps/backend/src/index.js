@@ -1,12 +1,12 @@
 import express, { urlencoded } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import { router as contactUsRoute } from './routes/contactRoute';
-import { router as ProductRoute } from "./routes/productRoute";
-import { router as userRoute } from "./routes/userRoute";
-import { router as paymentRoute } from "./routes/paymentRoute";
-import { router as rantingAndReviewsRoute } from "./routes/ratingAndReviewsRoute";
-import { connect } from "../../../packages/shared/config/database";
+import { router as contactUsRoute } from './routes/contactRoute.js';
+import { router as ProductRoute } from "./routes/productRoute.js";
+import { router as userRoute } from "./routes/userRoute.js";
+import { router as paymentRoute } from "./routes/paymentRoute.js";
+import { router as rantingAndReviewsRoute } from "./routes/ratingAndReviewsRoute.js";
+import { connect } from "../../../packages/shared/config/database.js";
 
 dotenv.config();
 const app = express();
