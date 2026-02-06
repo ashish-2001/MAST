@@ -353,5 +353,6 @@ export {
     editProduct,
     getAllProducts,
     getAllProductDetails,
-    deleteProduct
+    deleteProduct,
+    searchProduct
 };
