@@ -22,7 +22,6 @@ const AddressSchema = new mongoose.Schema({
         type: Number,
         required: true
     }
-    
 });
 
 const Address = mongoose.model("Address", AddressSchema);
