@@ -237,8 +237,6 @@ async function updateOrderStatus(req, res){
     const { orderId } = req.params;
     const { orderStatus } = req.body;
 
-    const allowed = ["Shipped", "Delivered"];
-
     try{
         const order = await Order.findById(orderId);
 
