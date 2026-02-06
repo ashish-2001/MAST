@@ -305,7 +305,48 @@ async function deleteProduct(req, res){
             message: e.message
         })
     }
-}
+};
+
+async function searchProduct(req, res){
+
+    try{
+        const { searchQuery } = req.body;
+
+        if(!searchQuery || searchQuery.trim() === ""){
+            return res.status(400).json({
+                success: false,
+                message: "Search query is required!"
+            });
+        };
+
+        const products = await Product.find({
+            $or: [
+                {
+                    productName: {
+                        $regex: searchQuery, $options: "i"
+                    }
+                },
+                {
+                    productDescription: {
+                        $regex: searchQuery,
+                        $options: "i"
+                    }
+                }
+            ]
+        }).populate("user").populate("category").("ratingAndReviews").exec();
+
+        return res.status(200).json({
+            data: products,
+            success: true,
+            message: "Product searched successfully!"
+        })
+    } catch(e){
+        return res.status(500).json({
+            success: false,
+            message: e.message
+        });
+    };
+};
 
 export {
     createProduct,
