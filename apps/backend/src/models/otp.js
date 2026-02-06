@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { mailSender } from "../../../../packages/shared/utils/mailSender";
+import { mailSender } from "../../../../packages/shared/utils/mailSender.js";
 
 const optSchema = new mongoose.Schema({
     email: {
