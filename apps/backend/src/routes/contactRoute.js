@@ -1,6 +1,6 @@
-import { contactUs, deleteContactMessage, getContactMessagesByStatus, updateContactMessageStatus } from "../controllers/contact";
+import { contactUs, deleteContactMessage, getContactMessagesByStatus, updateContactMessageStatus } from "../controllers/contact.js";
 import express from "express";
-import { auth, IsAdmin, isCustomer } from "../middleware/auth";
+import { auth, IsAdmin, isCustomer } from "../middleware/auth.js";
 
 
 const router = express.Router();
