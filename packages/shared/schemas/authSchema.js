@@ -1,6 +1,6 @@
 import z from "zod";
 
-const role = {
+const ROLE = {
     ADMIN: "Admin",
     CUSTOMER: "Customer"
 };
