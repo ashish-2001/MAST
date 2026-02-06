@@ -4,9 +4,9 @@ import express from"express";
 
 const router = express.Router();
 
-router.post("/createRatingAndReview", auth, isCustomer, createRatingAndReview);
-router.get("getAllRatingAndReviews", auth, getAllRatingAndReviews);
-router.get("/getAverageRating", getAverageRating);
+router.post("/ratingAndReview", auth, isCustomer, createRatingAndReview);
+router.get("/rantingAndReviews/getAllRatingAndReviews", auth, getAllRatingAndReviews);
+router.get("/ratingAndReviews/getAverageRating", getAverageRating);
 
 export {
     router
