@@ -4,11 +4,11 @@ import express from 'express';
 
 const router = express.Router();
 
-router.post("/createCategory", auth, IsAdmin, createCategory);
-router.get("/getAllCategories", auth, getAllCategory);
-router.put("/updateCategory/:categoryId", auth, IsAdmin, editCategory);
-router.delete("/deleteCategory/:categoryId", auth, IsAdmin, deleteCategory);
-router.post("/addProductToCategory/:categoryId/products", auth, IsAdmin, addProductToCategory);
+router.post("/category", auth, IsAdmin, createCategory);
+router.get("/category/getAllCategories", auth, getAllCategory);
+router.put("/category/updateCategory/:categoryId", auth, IsAdmin, editCategory);
+router.delete("/category/deleteCategory/:categoryId", auth, IsAdmin, deleteCategory);
+router.post("/category/addProductToCategory/:categoryId/products", auth, IsAdmin, addProductToCategory);
 
 export {
     router
