@@ -1,7 +1,7 @@
-import { categoryValidator } from "../../../../packages/shared/schemas/categorySchema";
-import { Category } from "../models/category";
-import { Product } from "../models/products";
-import { User } from "../models/user";
+import { categoryValidator } from "../../../../packages/shared/schemas/categorySchema.js";
+import { Category } from "../models/category.js";
+import { Product } from "../models/products.js";
+import { User } from "../models/user.js";
 
 async function createCategory(req, res){
 
