@@ -8,7 +8,9 @@ import { router as paymentRoute } from "./routes/paymentRoute.js";
 import { router as rantingAndReviewsRoute } from "./routes/ratingAndReviewsRoute.js";
 import { connect } from "../../../packages/shared/config/database.js";
 import fileUpload from "express-fileupload";
+import { cloudinaryConnect } from "../../../packages/shared/config/cloudinary.js";
 import dotenv from "dotenv";
+
 
 dotenv.config();
 const app = express();
