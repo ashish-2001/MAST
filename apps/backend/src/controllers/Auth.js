@@ -1,7 +1,7 @@
 import { signUpValidator } from "../../../../packages/shared/schemas/authSchema.js";
 import { signInValidator } from "../../../../packages/shared/schemas/authSchema.js";
 import { otpValidator } from "../../../../packages/shared/schemas/authSchema.js";
-import { changePassword } from "../../../../packages/shared/schemas/authSchema.js";
+import { changePasswordValidator } from "../../../../packages/shared/schemas/authSchema.js";
 import { Otp } from "../models/otp.js";
 import { User } from "../models/user.js";
 import bcrypt from 'bcrypt';
