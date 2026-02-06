@@ -35,7 +35,7 @@ const orderSchema = new mongoose.Schema({
         default: "Pending"
     },
     razorpayPaymentId: {
-        type: string,
+        type: String,
         required: true
     },
     deliveredAt: {
