@@ -1,3 +1,5 @@
+import { FaFacebook, FaInstagram, FaLinkedin, FaTwitter, FaYoutube } from "react-icons/fa";
+
 const footerData = [
     {
         id: 1,
@@ -24,7 +26,7 @@ const footerData = [
 
 const socialMediaData = [
     {
-        icons: [`${<instagram/>}`, `${<facebook/>}`, `${<linkedin/>}`, `${<twitter/>}`, `${<youtube/>}`],
+        icons: [`${<FaInstagram/>}`, `${<FaFacebook/>}`, `${<FaLinkedin/>}`, `${<FaTwitter/>}`, `${<FaYoutube/>}`],
         link: ["", "", "", "", ""]
     }
 ];
