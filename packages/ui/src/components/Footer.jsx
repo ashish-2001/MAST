@@ -1,4 +1,4 @@
-function Footer({ footerData, socialMediaData, footerSearchesData }){
+function Footer(){
     return (
         <div>
             <div>
@@ -14,7 +14,7 @@ function Footer({ footerData, socialMediaData, footerSearchesData }){
             <div>
                 {socialMediaData.map((mediaData) => (
                     <Link navigate={socialMediaData.link} key={mediaData.id}>
-                        {socialMediaData.link}
+                        {socialMediaData.icons}
                     </Link>
                 ))}
             </div>
