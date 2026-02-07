@@ -37,7 +37,7 @@ function Footer(){
             </div>
             <div className="flex justify-between items-center">
                 <p>MAST</p>
-                <p>Designed with {heart} by Ashish Pal</p>
+                <p>Designed with heart by Ashish Pal</p>
                 <p>(c)Copyright</p>
             </div>
         </div>
