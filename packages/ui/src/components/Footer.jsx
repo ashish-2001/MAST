@@ -27,9 +27,15 @@ function Footer({ footerData, socialMediaData, footerSearchesData }){
                             <div>
                                 <Link navigate={footerSearchesData.link}>{footerSearchesData.products} | </Link>
                             </div>
+                            <hr/>
                         </div>
                     </div>
                 ))}
+            </div>
+            <div className="flex justify-between items-center">
+                <p>MAST</p>
+                <p>Designed with {heart} by Ashish Pal</p>
+                <p>(c)Copyright</p>
             </div>
         </div>
     )
