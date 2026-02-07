@@ -30,7 +30,7 @@ function Footer(){
                         <p className="font-bold">{searchData.category}</p>
                         {searchData.products.map((product, i) => (
                             <Link key={i} to={product.link}>
-                                {product.name} |
+                                {product.name} { product.length === 7 ? "" : "|" } 
                             </Link>
                         ))}
                         <hr/>
