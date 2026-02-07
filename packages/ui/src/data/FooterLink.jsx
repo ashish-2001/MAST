@@ -86,4 +86,4 @@ export {
     footerData,
     socialMediaData,
     footerSearchesData
-};
+}
