@@ -24,7 +24,6 @@ function Footer(){
                     </a>
                 ))}
             </div>
-            <hr/>
             <div>
                 {footerSearchesData.map((searchData) => (
                     <div key={searchData.id}>
