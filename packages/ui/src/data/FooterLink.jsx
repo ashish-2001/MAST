@@ -1,0 +1,9 @@
+const FooterLink = [
+    {
+
+    }
+];
+
+export {
+    FooterLink
+}
