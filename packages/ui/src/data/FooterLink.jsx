@@ -26,6 +26,7 @@ const footerData = [
 
 const socialMediaData = [
     {
+        id: 1,
         icons: [`${<FaInstagram/>}`, `${<FaFacebook/>}`, `${<FaLinkedin/>}`, `${<FaTwitter/>}`, `${<FaYoutube/>}`],
         link: ["", "", "", "", ""]
     }
