@@ -6,10 +6,9 @@ function Footer(){
         <div>
             <div>
                 {footerData.map((data) => (
-
                     <div key={data.id}>
-                        <p>{footerData.title}</p>
-                        <Link navigate={footerData.link}>{footerData.services}</Link>
+                        <p>{data.title}</p>
+                        <Link navigate={data.link}>{data.services}</Link>
                     </div>
                 ))}
             </div>
