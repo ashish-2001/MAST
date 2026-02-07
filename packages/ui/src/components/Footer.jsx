@@ -8,29 +8,33 @@ function Footer(){
                 {footerData.map((data) => (
                     <div key={data.id} className="gap-10">
                         <p>{data.title}</p>
-                        <Link navigate={data.link}>{data.services}</Link>
+                        {data.links?.map((item, i) => (
+                            <Link key={i} to={item.path}>
+                                <p>{item.label}</p>
+                            </Link>
+                        ))}
                     </div>
                 ))}
             </div>
             <hr/>
             <div>
-                {socialMediaData.map((mediaData) => (
-                    <Link navigate={mediaData.link} key={mediaData.id}>
-                        {mediaData.icons}
-                    </Link>
+                {socialMediaData.map(({ id, icon: Icon, link }) => (
+                    <a key={id} href={link} target="_blank" rel="noopener noreferrer">
+                        <Icon size={20}/>
+                    </a>
                 ))}
             </div>
+            <hr/>
             <div>
                 {footerSearchesData.map((searchData) => (
                     <div key={searchData.id}>
-                        <p><b>{searchData.title}</b></p>
-                        <div>
-                            <p><b>{searchData.category}</b></p>
-                            <div className="gap-10">
-                                <Link navigate={searchData.link}>{searchData.products} | </Link>
-                            </div>
-                            <hr/>
-                        </div>
+                        <p className="font-bold">{searchData.category}</p>
+                        {searchData.products.map((product, i) => (
+                            <Link key={i} to={product.link}>
+                                {product.name} |
+                            </Link>
+                        ))}
+                        <hr/>
                     </div>
                 ))}
             </div>
