@@ -1,10 +1,11 @@
+import { Footer } from '../../../packages/ui/src/components/Footer'
 import './App.css'
 
 function App() {
 
   return (
     <div>
-      <h1>This is a monorepo project</h1>
+      <Footer/>
     </div>
   )
 }
