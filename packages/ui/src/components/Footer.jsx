@@ -16,19 +16,19 @@ function Footer(){
             <hr/>
             <div>
                 {socialMediaData.map((mediaData) => (
-                    <Link navigate={socialMediaData.link} key={mediaData.id}>
-                        {socialMediaData.icons}
+                    <Link navigate={mediaData.link} key={mediaData.id}>
+                        {mediaData.icons}
                     </Link>
                 ))}
             </div>
             <div>
                 {footerSearchesData.map((searchData) => (
                     <div key={searchData.id}>
-                        <p><b>{footerSearchesData.title}</b></p>
+                        <p><b>{searchData.title}</b></p>
                         <div>
-                            <p><b>{footerSearchesData.category}</b></p>
+                            <p><b>{searchData.category}</b></p>
                             <div>
-                                <Link navigate={footerSearchesData.link}>{footerSearchesData.products} | </Link>
+                                <Link navigate={searchData.link}>{searchData.products} | </Link>
                             </div>
                             <hr/>
                         </div>
