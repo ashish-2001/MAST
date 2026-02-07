@@ -1,4 +1,4 @@
-const FooterLink = [
+const footerData = [
     {
         id: 1,
         title: "MAST STYLE PVT LTD."
@@ -81,7 +81,7 @@ const footerSearchesData = [
 ];
 
 export {
-    FooterLink,
+    footerData,
     socialMediaData,
     footerSearchesData
 }

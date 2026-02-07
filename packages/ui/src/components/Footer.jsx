@@ -1,3 +1,5 @@
+import { footerData, socialMediaData, footerSearchesData } from "../data/FooterLink";
+
 function Footer(){
     return (
         <div>
