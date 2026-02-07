@@ -8,78 +8,148 @@ const footerData = [
     {
         id: 2, 
         title: "Policy",
-        services: ["Shipping Policy", "Delivery Policy", "Payment Policy", "Grievance Redressal Policy"],
-        link: ["/shippingPolicy", "/deliveryPolicy", "/paymentPolicy", "/grievanceRedressalPolicy"]
+        links: [
+            { label: "Shipping Policy", path: "/shippingPolicy" },
+            { label: "Delivery Policy", path: "/deliveryPolicy" },
+            { label: "Payment Policy", path: "/paymentPolicy" },
+            { label: "Grievance Redressal Policy", path: "/grievanceRedressalPolicy"}
+        ]
     },
     {
         id: 3,
         title: "Help",
-        services: ["FAQ's", "Contact Us", "Terms Of Service", "Privacy Policy", "Return & Exchange"],
-        link: ["/faq", "/contactUs", "/termsOfService", "/privacyPolicy", "/return&Exchange"]
+        links: [
+            { label: "FAQ's", path: "/faq"},
+            { label: "Contact Us", path: "/contactUs" } ,
+            { label: "Terms Of Service", path: "/termsOfService" },
+            { label: "Privacy Policy", path: "/paymentPolicy" },
+            { label: "Return & Exchange", path: "/return&Exchange" }
+        ]
     },
     {
         id: 4,
         title: "About Us",
-        services: ["About Us", "Blogs", "Contact Us", "Stores & Service"]
+        links: [
+            { label: "About Us", path: "/aboutUs" }, 
+            { label: "Blogs", path: "/blogs" }, 
+            { label: "Contact Us", path: "/contactUs" }, 
+            { label: "Stores & Service", path: "/stores&Service" }
+        ]
     }
 ];
 
 const socialMediaData = [
-    {
-        id: 1,
-        icons: [<FaInstagram/>, <FaFacebook/>, <FaLinkedin/>, <FaTwitter/>, <FaYoutube/>],
-        link: ["", "", "", "", ""]
-    }
+    { id: 1, icon: <FaInstagram/>, link: "#" },
+    { id: 2, icon: <FaFacebook/>, link: "#" },
+    { id: 3, icon: <FaLinkedin/>, link: "#" },
+    { id: 4, icon: <FaTwitter/>, link: "#" },
+    { id: 5, icon: <FaYoutube/>, link: "#" },
 ];
 
 const footerSearchesData = [
     {
         id: 1, 
         category: "For Women",
-        products: ["Demifine", "Jewellery", "Rings For Women", "Bracelets For Women", "Pendants For Women", "Necklace For Women"],
-        link: ["/demifine", "/jwellery", "/ringsForWomen", "/earingsForWomen", "/braceletsForWomen", "/pendantsForWomen", "/necklaceForWomen"]
+        products: [
+            { name: "Demifine", path: "/demifine" },
+            { name: "Jewellery", path: "/jwellery" }, 
+            { name: "Rings For Women", path: "/ringsForWomen" }, 
+            { name: "Bracelets For Women", path: "/braceletsForWomen" }, 
+            { name: "Earings for women", path: "/earingForWOmen" },
+            { name: "Pendants For Women", path: "/pendantsForWomen" },
+            { name: "Necklace For Women", path: "/necklaceForWomen" }
+        ]
     },
     {
         id: 2, 
         category: "For Men",
-        products: ["Demifine", "Jewellery", "Rings For Women", "Bracelets For Women", "Pendants For Women", "Necklace For Women"],
-        link: ["/demifine", "/jwellery", "/ringsForWomen", "/earingsForWomen", "/braceletsForWomen", "/pendantsForWomen", "/necklaceForWomen"]
+        products: [
+            { name: "Demifine", path: "/demifine" },
+            { name: "Jewellery", path: "/jwellery" }, 
+            { name: "Rings For Women", path: "/ringsForWomen" }, 
+            { name: "Bracelets For Women", path: "/braceletsForWomen" }, 
+            { name: "Earings for women", path: "/earingForWOmen" },
+            { name: "Pendants For Women", path: "/pendantsForWomen" },
+            { name: "Necklace For Women", path: "/necklaceForWomen" }
+        ]
     },
     {
         id: 3, 
-        category: "Mangalsutra",
-        products: ["Demifine", "Jewellery", "Rings For Women", "Bracelets For Women", "Pendants For Women", "Necklace For Women"],
-        link: ["/demifine", "/jwellery", "/ringsForWomen", "/earingsForWomen", "/braceletsForWomen", "/pendantsForWomen", "/necklaceForWomen"]
+        category: "For Men",
+        products: [
+            { name: "Demifine", path: "/demifine" },
+            { name: "Jewellery", path: "/jwellery" }, 
+            { name: "Rings For Women", path: "/ringsForWomen" }, 
+            { name: "Bracelets For Women", path: "/braceletsForWomen" }, 
+            { name: "Earings for women", path: "/earingForWOmen" },
+            { name: "Pendants For Women", path: "/pendantsForWomen" },
+            { name: "Necklace For Women", path: "/necklaceForWomen" }
+        ]
     },
     {
         id: 4, 
-        category: "Pendants",
-        products: ["Demifine", "Jewellery", "Rings For Women", "Bracelets For Women", "Pendants For Women", "Necklace For Women"],
-        link: ["/demifine", "/jwellery", "/ringsForWomen", "/earingsForWomen", "/braceletsForWomen", "/pendantsForWomen", "/necklaceForWomen"]
+        category: "For Men",
+        products: [
+            { name: "Demifine", path: "/demifine" },
+            { name: "Jewellery", path: "/jwellery" }, 
+            { name: "Rings For Women", path: "/ringsForWomen" }, 
+            { name: "Bracelets For Women", path: "/braceletsForWomen" }, 
+            { name: "Earings for women", path: "/earingForWOmen" },
+            { name: "Pendants For Women", path: "/pendantsForWomen" },
+            { name: "Necklace For Women", path: "/necklaceForWomen" }
+        ]
     },
     {
         id: 5, 
-        category: "Bracelets",
-        products: ["Demifine", "Jewellery", "Rings For Women", "Bracelets For Women", "Pendants For Women", "Necklace For Women"],
-        link: ["/demifine", "/jwellery", "/ringsForWomen", "/earingsForWomen", "/braceletsForWomen", "/pendantsForWomen", "/necklaceForWomen"]
+        category: "For Men",
+        products: [
+            { name: "Demifine", path: "/demifine" },
+            { name: "Jewellery", path: "/jwellery" }, 
+            { name: "Rings For Women", path: "/ringsForWomen" }, 
+            { name: "Bracelets For Women", path: "/braceletsForWomen" }, 
+            { name: "Earings for women", path: "/earingForWOmen" },
+            { name: "Pendants For Women", path: "/pendantsForWomen" },
+            { name: "Necklace For Women", path: "/necklaceForWomen" }
+        ]
     },
     {
         id: 6, 
-        category: "Rings",
-        products: ["Demifine", "Jewellery", "Rings For Women", "Bracelets For Women", "Pendants For Women", "Necklace For Women"],
-        link: ["/demifine", "/jwellery", "/ringsForWomen", "/earingsForWomen", "/braceletsForWomen", "/pendantsForWomen", "/necklaceForWomen"]
+        category: "For Men",
+        products: [
+            { name: "Demifine", path: "/demifine" },
+            { name: "Jewellery", path: "/jwellery" }, 
+            { name: "Rings For Women", path: "/ringsForWomen" }, 
+            { name: "Bracelets For Women", path: "/braceletsForWomen" }, 
+            { name: "Earings for women", path: "/earingForWOmen" },
+            { name: "Pendants For Women", path: "/pendantsForWomen" },
+            { name: "Necklace For Women", path: "/necklaceForWomen" }
+        ]
     },
     {
         id: 7, 
-        category: "Necklace",
-        products: ["Demifine", "Jewellery", "Rings For Women", "Bracelets For Women", "Pendants For Women", "Necklace For Women"],
-        link: ["/demifine", "/jwellery", "/ringsForWomen", "/earingsForWomen", "/braceletsForWomen", "/pendantsForWomen", "/necklaceForWomen"]
+        category: "For Men",
+        products: [
+            { name: "Demifine", path: "/demifine" },
+            { name: "Jewellery", path: "/jwellery" }, 
+            { name: "Rings For Women", path: "/ringsForWomen" }, 
+            { name: "Bracelets For Women", path: "/braceletsForWomen" }, 
+            { name: "Earings for women", path: "/earingForWOmen" },
+            { name: "Pendants For Women", path: "/pendantsForWomen" },
+            { name: "Necklace For Women", path: "/necklaceForWomen" }
+        ]
     },
     {
         id: 8, 
-        category: "Earings",
-        products: ["Demifine", "Jewellery", "Rings For Women", "Bracelets For Women", "Pendants For Women", "Necklace For Women"],
-        link: ["/demifine", "/jwellery", "/ringsForWomen", "/earingsForWomen", "/braceletsForWomen", "/pendantsForWomen", "/necklaceForWomen"]
+        category: "For Men",
+        products: [
+            { name: "Demifine", path: "/demifine" },
+            { name: "Jewellery", path: "/jwellery" }, 
+            { name: "Rings For Women", path: "/ringsForWomen" }, 
+            { name: "Bracelets For Women", path: "/braceletsForWomen" }, 
+            { name: "Earings for women", path: "/earingForWOmen" },
+            { name: "Pendants For Women", path: "/pendantsForWomen" },
+            { name: "Necklace For Women", path: "/necklaceForWomen" }
+        ]
     }
 ];
 

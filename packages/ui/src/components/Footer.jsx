@@ -4,9 +4,9 @@ import { footerData, socialMediaData, footerSearchesData } from "../data/FooterL
 function Footer(){
     return (
         <div>
-            <div>
+            <div >
                 {footerData.map((data) => (
-                    <div key={data.id}>
+                    <div key={data.id} className="gap-10">
                         <p>{data.title}</p>
                         <Link navigate={data.link}>{data.services}</Link>
                     </div>
@@ -26,7 +26,7 @@ function Footer(){
                         <p><b>{searchData.title}</b></p>
                         <div>
                             <p><b>{searchData.category}</b></p>
-                            <div>
+                            <div className="gap-10">
                                 <Link navigate={searchData.link}>{searchData.products} | </Link>
                             </div>
                             <hr/>
