@@ -39,11 +39,11 @@ const footerData = [
 ];
 
 const socialMediaData = [
-    { id: 1, icon: <FaInstagram/>, link: "#" },
-    { id: 2, icon: <FaFacebook/>, link: "#" },
-    { id: 3, icon: <FaLinkedin/>, link: "#" },
-    { id: 4, icon: <FaTwitter/>, link: "#" },
-    { id: 5, icon: <FaYoutube/>, link: "#" },
+    { id: 1, icon: FaInstagram, link: "#" },
+    { id: 2, icon: FaFacebook, link: "#" },
+    { id: 3, icon: FaLinkedin, link: "#" },
+    { id: 4, icon: FaTwitter, link: "#" },
+    { id: 5, icon: FaYoutube, link: "#" },
 ];
 
 const footerSearchesData = [
