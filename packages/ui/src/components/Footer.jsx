@@ -6,7 +6,7 @@ function Footer(){
         <div>
             <div className="flex">
                 {footerData.map((data) => (
-                    <div key={data.id} className="gap-10">
+                    <div key={data.id} className="gap-10 bg-red-200">
                         <p>{data.title}</p>
                         {data.links?.map((item, i) => (
                             <Link key={i} to={item.path}>
@@ -39,7 +39,7 @@ function Footer(){
             </div>
             <div className="flex justify-center items-center">
                 <p>MAST</p>
-                <p>Designed with heart by Ashish Pal</p>
+                <p className="bg-red-600">Designed with heart by Ashish Pal</p>
                 <p>(c)Copyright</p>
             </div>
         </div>
