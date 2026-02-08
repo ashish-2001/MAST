@@ -4,7 +4,7 @@ import { footerData, socialMediaData, footerSearchesData } from "../data/FooterL
 function Footer(){
     return (
         <div>
-            <div >
+            <div className="flex">
                 {footerData.map((data) => (
                     <div key={data.id} className="gap-10">
                         <p>{data.title}</p>
@@ -25,19 +25,19 @@ function Footer(){
                 ))}
             </div>
             <div>
-                {footerSearchesData.map((searchData) => (
-                    <div key={searchData.id}>
+                {footerSearchesData.map((searchData, i) => (
+                    <div key={i}>
                         <p className="font-bold">{searchData.category}</p>
-                        {searchData.products.map((product, i) => (
-                            <Link key={i} to={product.link}>
-                                {product.name} { (i !== searchData.products.length - 1) ? "|" : "" } 
+                        {searchData.products.map((product, j) => (
+                            <Link key={j} to={product.link}>
+                                {product.name} { (j !== searchData.products.length - 1) ? "|" : "" } 
                             </Link>
                         ))}
-                        <hr/>
+                        {( i !== footerSearchesData.length - 1) ?  <hr/> : ""}
                     </div>
                 ))}
             </div>
-            <div className="flex justify-between items-center">
+            <div className="flex justify-center items-center">
                 <p>MAST</p>
                 <p>Designed with heart by Ashish Pal</p>
                 <p>(c)Copyright</p>
