@@ -1,12 +1,11 @@
 import { Link } from "react-router-dom";
-import { footerData, socialMediaData, footerSearchesData } from "../data/FooterLink";
 
-function Footer(){
+function Footer({ footerData, footerSearchesData, children, socialMediaData }){
     return (
         <div>
-            <div className="flex">
+            <div>
                 {footerData.map((data) => (
-                    <div key={data.id} className="gap-10 bg-red-200">
+                    <div key={data.id}>
                         <p>{data.title}</p>
                         {data.links?.map((item, i) => (
                             <Link key={i} to={item.path}>
@@ -27,7 +26,7 @@ function Footer(){
             <div>
                 {footerSearchesData.map((searchData, i) => (
                     <div key={i}>
-                        <p className="font-bold">{searchData.category}</p>
+                        <p>{searchData.category}</p>
                         {searchData.products.map((product, j) => (
                             <Link key={j} to={product.link}>
                                 {product.name} { (j !== searchData.products.length - 1) ? "|" : "" } 
@@ -37,10 +36,8 @@ function Footer(){
                     </div>
                 ))}
             </div>
-            <div className="flex justify-center items-center">
-                <p>MAST</p>
-                <p className="bg-red-600">Designed with heart by Ashish Pal</p>
-                <p>(c)Copyright</p>
+            <div>
+                {children}
             </div>
         </div>
     )
