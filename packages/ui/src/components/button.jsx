@@ -1,7 +1,5 @@
 "use client";
 
-import { ReactNode } from "react";
-
 function Button({ children, className, appName }){
   return (
     <button
